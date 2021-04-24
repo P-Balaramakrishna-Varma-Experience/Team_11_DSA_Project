@@ -28,11 +28,17 @@ MinHeap Init_min_heap()
 
 void ResizeHeap(MinHeap H)
 {
-    int New_Size = H->MaxSize * 2;
+    int New_Size;
 
-    H->Heap = realloc(H->Heap, 2 * New_Size);
+    if (IsFull(H))
+        New_Size = H->MaxSize * 2;
+    else if (Is25Full(H))
+        New_Size = H->MaxSize / 2;
+    else
+        return;
+
+    H->Heap = realloc(H->Heap, New_Size);
     assert(H->Heap != NULL);
-
     H->MaxSize = New_Size;
 }
 
@@ -41,7 +47,7 @@ bool IsFull(MinHeap H)
     return H->LastIndex == H->MaxSize - 1;
 }
 
-void Delete_min_heap(MinHeap *A)
+void Delete_min_heap(MinHeap *A) // do not send a null 
 {
     MinHeap H = *A;
 
@@ -86,7 +92,7 @@ void RmLeastNum(MinHeap A)
 void AdustTop(MinHeap H)
 {
     int pNode = 0;
-
+    // current local 3 tree.
     while (pNode <= H->LastIndex)
     {
         int min = MIN(H->Heap[pNode], H->Heap[lchildH(pNode, H)], H->Heap[RchildH(pNode, H)]);
@@ -118,11 +124,13 @@ bool IsEmpty(MinHeap A)
 
 void AddNum(int a, MinHeap H)
 {
-    if (IsFull(H))
+    if (IsFull(H) || Is25Full(H))
         ResizeHeap(H);
 
+    // Heap array no change
     H->LastIndex++;
     H->Heap[H->LastIndex] = a;
+    //Heap array conatins a at lst element
 
     int Pnode = H->LastIndex;
 
@@ -166,4 +174,23 @@ int ParentH(int n, MinHeap H)
         return estimate;
     else
         return INT_MAX;
+}
+
+int MIN(int a , int b , int c)
+{
+    //a and b and c are distinct
+    if(a < b && a < c)
+        return a;
+    if(b < c && b < a)
+        return b;
+    if(c < b && c < a)
+        return c;
+
+    // eror
+    return -10; 
+}
+
+bool Is25Full(MinHeap H)
+{
+    return H->LastIndex <= H->MaxSize/4;
 }
