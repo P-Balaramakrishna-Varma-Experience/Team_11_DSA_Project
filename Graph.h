@@ -21,6 +21,7 @@ struct UserNode
     PtrBST OutVertices;                     // all friends of this user.
     PtrBST InVertices;                      // all members whose friend is this user.
     PtrUser User;                           // info about the user.
+    bool Isvalid;
 };
 
 typedef struct GraphS GraphS;
