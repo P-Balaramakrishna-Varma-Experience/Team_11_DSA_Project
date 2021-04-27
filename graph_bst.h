@@ -19,21 +19,27 @@ struct Node {
 
 PtrToNode make_node(int e);
 PtrToNode InsertNode(Tree T, int E);
-PtrToNode FindID(Tree T, int e);
+
+// tries to find a node (if not present returns NULL)
 PtrToNode find(Tree T, int e);
+
 void freeNode(PtrToNode P);
-// PtrToNode findMin(Tree T);
+
+// finds the smallest element in the tree
+PtrToNode findMin(Tree T);
+
+// deletes a node of a particular value
 PtrToNode DeleteNode(Tree T, int E);
+
+// prints the bst in a sorted order
 void bstsort(Tree T);
-// void finddepth(Tree T, PtrToNode P);
-// int finddepth_util(Tree T, PtrToNode P);
-// void height(Tree T);
-// int height_util(Tree T);
-// void isbst(Tree T);
-// int IsItBst(Tree T, int max, int min);
+
 void swap(int* a, int* b);
+
+// produces a random bst given n
 Tree randomBST(int N);
-// void avgDepth();
-// void inRange(Tree T, int k1, int k2);
+
+// destroys the entire tree
+void DeleteTree(Tree*);
 
 #endif
