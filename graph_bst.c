@@ -1,5 +1,6 @@
 #include "graph_bst.h"
 
+// makes a node
 PtrToNode make_node(int e) {
     PtrToNode P = (PtrToNode)malloc(sizeof(Node));
     assert(P != NULL);
@@ -10,6 +11,7 @@ PtrToNode make_node(int e) {
     return P;
 }
 
+// inserts a node in the given tree with data as e
 PtrToNode InsertNode(Tree T, int e) {
     if(T == NULL) {
         T = make_node(e);
@@ -23,10 +25,7 @@ PtrToNode InsertNode(Tree T, int e) {
     return T;
 }
 
-PtrToNode FindID(Tree T, int e) {
-    return find(T, e)->id;
-}
-
+// returns the pointer to the node with id as e
 PtrToNode find(Tree T, int e) {
     if(T == NULL)
         return T;
@@ -48,31 +47,43 @@ void freeNode(PtrToNode P) {
     }
 }
 
+PtrToNode findMin(Tree T) {
+    if(T->left != NULL) {
+        return findMin(T->left);
+    } else {
+        return T;
+    }
+}
+
 PtrToNode DeleteNode(Tree T, int e) {
-    PtrToNode temp;
-    if(e < T->id) {
-        T->left = DeleteNode(T->left, e);
-    }
-    else if(e > T->id) {
-        T->right = DeleteNode(T->right, e);
-    }
-    else {
-        if (T->left == NULL || T->right == NULL) {
-            temp = T;
-            if(T->left == NULL) {
-                T = T->right;
-            }
-            else if(T->right == NULL) {
-                T = T->left;
-            }
-            freeNode(temp);
-            return T;
+    if(T != NULL) {
+        PtrToNode temp;
+        if(e < T->id) {
+            T->left = DeleteNode(T->left, e);
+        }
+        else if(e > T->id) {
+            T->right = DeleteNode(T->right, e);
         }
         else {
-            temp = findMin(T->right);
-            T->id = temp->id;
-            T->right = DeleteNode(T->right, T->id);
+            if (T->left == NULL || T->right == NULL) {
+                temp = T;
+                if(T->left == NULL) {
+                    T = T->right;
+                }
+                else if(T->right == NULL) {
+                    T = T->left;
+                }
+                freeNode(temp);
+                return T;
+            }
+            else {
+                temp = findMin(T->right);
+                T->id = temp->id;
+                T->right = DeleteNode(T->right, T->id);
+            }
         }
+    } else {
+        return T;
     }
 }
 
@@ -112,4 +123,21 @@ Tree randomBST(int N) {
     }
 
     return T;
+}
+
+// deletes the tree but retains the root pointer
+void EmptyTree(Tree T) {
+    if(T != NULL) {
+        EmptyTree(T->left);
+        EmptyTree(T->right);
+        freeNode(T);
+    }
+}
+
+void DeleteTree(Tree* TP) {
+    Tree T = *TP;
+    if(T != NULL) {
+        EmptyTree(T);
+    }
+    free(TP);
 }
