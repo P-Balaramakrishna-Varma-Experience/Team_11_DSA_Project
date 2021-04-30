@@ -35,10 +35,6 @@ struct GraphS
 
 
 
-
-
-
-
 Graph Init_Graph(Graph G);
 void Print_Graph(Graph G);
 void Delete_Graph(Graph *PtrG);
