@@ -12,26 +12,39 @@
 #define BLACK 2
 //visited
 
+struct recommondation
+{
+    int id;
+    int level;
+};
+typedef struct recommondation *recommondation;
+
 int *Friends_Recomandation_old_user(Graph G, int Start, int K);
-void BFS(Graph G, int start, int *Array, int K);
-void Randomize(int A[], int K);
-void Work(Tree T, QUE Q, int color[]);
-void ForAll(Tree T, QUE Q, int pColor[], void operation(Tree, QUE, int *));
-void Randomizeij(int A[],int K , int i , int j);
+void BFS(Graph G, int start, recommondation *Array, int K);
+void Randomize(recommondation *A, int K, int *Ans);
+void Work(Tree T, ptrQUE Q, int color[], int level);
+void ForAll(Tree T, ptrQUE Q, int pColor[], void operation(Tree, ptrQUE, int *, int), int level);
+void Randomizeij(recommondation A[], int i, int j, int *Ans);
+void DeleteRecommondationArray(recommondation *a, int K);
 
 int *Friends_Recomandation_old_user(Graph G, int Start, int K)
 {
     //intializing A
-    int *A = malloc(sizeof(int) * K);
+    recommondation *A = malloc(sizeof(recommondation) * K);
 
     // Storing the nodes in preference of distance.
     BFS(G, Start, A, K);
 
-    return A;
+    int *Ans = malloc(sizeof(int) * K);
+
+    Randomize(A, K, Ans);
+
+    DeleteRecommondationArray(A, K);
+    return Ans;
     // It is the user resposibility to free the memory of the array.
 }
 
-void BFS(Graph G, int start, int *Array, int K)
+void BFS(Graph G, int start, recommondation *Array, int K)
 {
     //creating the Array to store the colours.
     int N = G->LastId + 1;
@@ -43,56 +56,112 @@ void BFS(Graph G, int start, int *Array, int K)
         pColour[i] = WHITE;
 
     //starting the breath first search with the first node.
-    QUE Q;
+    ptrQUE Q;
     pColour[start] = GRAY; // Gray nodes are added to the queue
-    Q = CreateEmptyQueue();
-    Enqueue(Q, start);
+    Q = makeQUE();
+
+    recommondation Start = {start, 0};
+    Enqueue(Q, Start);
 
     //Progressing the BFS
-    int u, v;
-    int L = -1; // index of last element strored in Array (size K)
+    recommondation u, v;
+    int Last_index = -1; // index of last element strored in Array (size K)
 
     while (!IsQueueEmpty(Q))
     {
-        u = Dequeue(Q); 
+        u = Dequeue(Q);
 
-        ForAll(G->UserArray[u],Q,pColour,Work);
+        ForAll(G->UserArray[u->id]->OutVertices, Q, pColour, Work, u->level + 1);
 
-        pColour[u] = BLACK;
+        pColour[u->id] = BLACK;
 
-        if (L == K - 1) // the list is full.
+        if (Last_index == K - 1) // the list is full.
             break;
 
-        if (L != K - 1 && !Friend(start, u)) // check friendship.
+        if (Last_index != K - 1 && !Friend(start, u->id) && u->id != start) // check friendship.
         {
-            L++;
-            Array[L] = u;
+            Last_index++;
+            Array[Last_index] = u;
         }
     }
 
     free(pColour);
-    deleteQUE(&Q);
+    deleteQUE(Q);
     // que is empty // or found K friends
     //either case the BFS work is over.
     return;
 }
 
-void ForAll(Tree T, QUE Q, int pColor[], void operation(Tree, QUE, int *))
+void ForAll(Tree T, ptrQUE Q, int pColor[], void operation(Tree, ptrQUE, int *, int), int level)
 {
     if (T != NULL)
     {
-        ForAll(T->left, Q, pColor, operation);
-        operation(T, Q, pColor);
-        ForAll(T->right, Q, pColor, operation);
+        ForAll(T->left, Q, pColor, operation, level);
+        operation(T, Q, pColor, level);
+        ForAll(T->right, Q, pColor, operation, level);
     }
 }
 
-void Work(Tree T, QUE Q, int color[])
+void Work(Tree T, ptrQUE Q, int color[], int level)
 {
+    //T != Null.
     int p = T->id;
     if (color[p] == WHITE)
     {
         color[p] = GRAY; // Gray nodes are added to the queue
-        Enqueue(Q, p);
+
+        recommondation P = malloc(sizeof(recommondation));
+        P->id = p;
+        P->level = level;
+
+        Enqueue(Q, P);
+    }
+}
+
+void DeleteRecommondationArray(recommondation *a, int K)
+{
+    for (int i = 0; i < K; i++)
+    {
+        free(a[i]);
+    }
+    free(a);
+    // not using double pointers due to over confusio.
+}
+
+void Randomizeij(recommondation *A, int i, int j, int *Ans) //int k is reduntand
+{
+    //asume srand is intialized;
+    int ranNum;
+
+    for (int loop = i; loop <= j; loop++)
+    {
+        ranNum = rand() % (j - i + 1) + i;
+
+        recommondation temp = A[loop];
+        A[loop] = A[ranNum];
+        A[ranNum] = temp;
+    }
+
+    for (int loop = i; loop <= j; loop++)
+    {
+        Ans[loop] = A[loop]->id;
+    }
+}
+
+void Randomize(recommondation *A, int K, int *Ans)
+{
+    int plevel = 2;
+    int startlevel_index = 0;
+
+    for (int i = 0; i < K; i++)
+    {
+        if (plevel == A[i]->level)
+            continue;
+        else
+        {
+            plevel = A[i]->level;
+            Randomizeij(A, startlevel_index, i - 1, Ans);
+            startlevel_index = i;
+        }
     }
 }
