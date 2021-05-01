@@ -19,13 +19,17 @@ MinHeap Init_min_heap()
     MinHeap H;
 
     H = malloc(sizeof(struct MinHeapS));
+    assert(H != NULL);
+
     H->LastIndex = -1;
     H->MaxSize = InitalSize_Heap;
     H->Heap = malloc(InitalSize_Heap * sizeof(int));
+    assert(H->Heap != NULL);
 
     return H;
 }
 
+// Dobules or halves appropriately.
 void ResizeHeap(MinHeap H)
 {
     int New_Size;
@@ -33,22 +37,30 @@ void ResizeHeap(MinHeap H)
     if (IsFull(H))
         New_Size = H->MaxSize * 2;
     else if (Is25Full(H))
-        New_Size = H->MaxSize / 2;
-    else
+        New_Size = H->MaxSize / 2 + 1;
+    else //called by mistake
         return;
 
-    H->Heap = realloc(H->Heap, New_Size);
+    H->Heap = realloc(H->Heap, New_Size * sizeof(int));
     assert(H->Heap != NULL);
+
     H->MaxSize = New_Size;
 }
 
 bool IsFull(MinHeap H)
 {
-    return H->LastIndex == H->MaxSize - 1;
+    return (H->LastIndex == H->MaxSize - 1);
 }
 
-void Delete_min_heap(MinHeap *A) // do not send a null 
+bool Is25Full(MinHeap H)
 {
+    return (H->LastIndex <= H->MaxSize / 4);
+}
+
+void Delete_min_heap(MinHeap *A) // do not send a null//test by valgrind.
+{
+    assert(*A != NULL);
+
     MinHeap H = *A;
 
     free(H->Heap);
@@ -67,10 +79,14 @@ void Print_min_heap(MinHeap A)
 
 int LeastNum(MinHeap A)
 {
-    if (IsEmpty(A))
-        return -11111;
+    assert(!IsEmpty(A));
 
     return A->Heap[0];
+}
+
+bool IsEmpty(MinHeap A)
+{
+    return (A->LastIndex == -1);
 }
 
 void RmLeastNum(MinHeap A)
@@ -78,17 +94,19 @@ void RmLeastNum(MinHeap A)
     assert(!IsEmpty(A));
     //A is not empty
 
-    if (A->LastIndex = 0)
+    if (A->LastIndex == 0)
     {
         A->LastIndex = -1;
         return;
     }
     // A is not empty and contains more than one element
+
     A->Heap[0] = A->Heap[A->LastIndex];
     A->LastIndex--;
     AdjustTop(A);
 }
 
+//heapify but only on top. all elements are distinct assumes.
 void AdustTop(MinHeap H)
 {
     int pNode = 0;
@@ -117,11 +135,6 @@ void AdustTop(MinHeap H)
     }
 }
 
-bool IsEmpty(MinHeap A)
-{
-    return A->LastIndex == -1;
-}
-
 void AddNum(int a, MinHeap H)
 {
     if (IsFull(H) || Is25Full(H))
@@ -136,21 +149,24 @@ void AddNum(int a, MinHeap H)
 
     while (Pnode > 0)
     {
-        if (H->Heap[Pnode] > H->Heap[ParentH(Pnode, H)])
+        if (H->Heap[Pnode] > H->Heap[ParentH(Pnode, H)]) // min heap property is satisfied.
             break;
 
-        // paretn larger than child i must swap to hold min heap propery
+        // paretn larger than child i must swap to hold min heap propery locally.
         int tem = H->Heap[Pnode];
         H->Heap[Pnode] = H->Heap[ParentH(Pnode, H)];
         H->Heap[ParentH(Pnode, H)] = H->Heap[Pnode];
+
+        Pnode = ParentH(Pnode,H); // index for next iteration.
     }
 }
 
+//when indexed lchild /rchild / Parent may cause segmentation fault./test for valididty.
 int lchildH(int n, MinHeap H)
 {
     int estimate = 2 * n + 1;
 
-    if (estimate <= H->LastIndex)
+    if (estimate <= H->LastIndex && estimate >= 0)
         return estimate;
     else
         return INT_MAX;
@@ -160,7 +176,7 @@ int RchildH(int n, MinHeap H)
 {
     int estimate = 2 * n + 2;
 
-    if (estimate <= H->LastIndex)
+    if (estimate <= H->LastIndex && estimate >= 0)
         return estimate;
     else
         return INT_MAX;
@@ -170,27 +186,23 @@ int ParentH(int n, MinHeap H)
 {
     int estimate = (n - 1) / 2;
 
-    if (estimate >= 0)
+    if (estimate >= 0 && estimate <= H->LastIndex)
         return estimate;
     else
         return INT_MAX;
 }
 
-int MIN(int a , int b , int c)
+int MIN(int a, int b, int c)
 {
     //a and b and c are distinct
-    if(a < b && a < c)
+    if (a < b && a < c)
         return a;
-    if(b < c && b < a)
+    if (b < c && b < a)
         return b;
-    if(c < b && c < a)
+    if (c < b && c < a)
         return c;
 
     // eror
-    return -10; 
-}
-
-bool Is25Full(MinHeap H)
-{
-    return H->LastIndex <= H->MaxSize/4;
+    //this propogates to cause a segmentation fault.
+    return -10;
 }
