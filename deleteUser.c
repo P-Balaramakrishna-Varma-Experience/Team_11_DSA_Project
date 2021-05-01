@@ -1,29 +1,54 @@
-#include "graph_bst.h"
 #include "Graph.h"
+#include "HashTable.h"
 
-void deleteFriendOut(int a, int b); // dummy function for deleting a friend in the outvertices bst 
-void deleteFriendIn(int a, int b); // dummy function for deleting a friend in the outvertices bst 
+void deleteUser(Graph G, int user) {
+    PtrUserNode P = G->UserArray[user]; // P is the struct at the user index
+    if(P->Isvalid) { // if User is present
+        Table T = P->InVertices;
+        for(int i = 0; i < T->size; i++) { // traverses thorugh the invertices table
+            if(T->Bucket[i] == NULL) {
+                continue;
+            } else {
+                NodePtr P = T->Bucket[i];
+                while(P != NULL) {
+                    deleteUserOut(G, P->Elem, user); // deletes user from the outvetex lis of P->Elem
+                    P = P->Next;
+                }
+            }
+        }
+        DeleteTable(T);
+        T = NULL;
 
-void deleteUser(Graph G, int id) {
-    PtrUserNode P = G->UserArray[id];
-    if(P->User != NULL) {
-        PtrBST B = P->InVertices;
-        deleteUserinBST(B, id, deleteFriendOut);
-        
-        B = P->OutVertices;
-        deleteUserinBST(B, id, deleteFriendIn);
-        
+        // same but for outvertices
+        T = P->OutVertices;
+        for(int i = 0; i < T->size; i++) {
+            if(T->Bucket[i] == NULL) {
+                continue;
+            } else {
+                NodePtr P = T->Bucket[i];
+                while(P != NULL) {
+                    deleteUserIn(G, P->Elem, user);
+                    P = P->Next;
+                }
+            }
+        }
+
+        DeleteTable(T);
+        T = NULL;
+
+        DeleteUserNode(P->User);
+        P->Isvalid = false;
     }
-    free(P->User);
-    DeleteTree(&(P->InVertices));
-    DeleteTree(&(P->OutVertices));
 }
 
-// uses a function pointer to do work for both type of vertices
-deleteUserinBST(Tree B, int id, void func(int a, int b)) { 
-    if(B != NULL) {
-        deleteUserinBST(B->left, id, func); // goes as left as possible
-        func(B->id, id); // does the actual work
-        deleteUserinBST(B->right, id, func); // goes as right
-    }
+// goes to the user u and deletes the user v from outvertices
+void deleteUserOut(Graph G, int u, int v) {
+    Table T = G->UserArray[u]->OutVertices;
+    RemoveElement(T, v);
+}
+
+// goes to the user u and deletes the user v from invertices
+void deleteUserIn(Graph G, int u, int v) {
+    Table T = G->UserArray[u]->InVertices;
+    RemoveElement(T, v);
 }

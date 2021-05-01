@@ -2,10 +2,10 @@
 #define GRAPH
 
 #include <stdbool.h>
+#include "HashTable.h"
 
 #define IntialSize_Graph 100
 
-typedef int *PtrBST;
 typedef int *PtrUser;
 typedef int *Minheap;
 
@@ -18,8 +18,8 @@ typedef UserNode *PtrUserNode;
 struct UserNode
 {
     int ID;
-    PtrBST OutVertices;                     // all friends of this user.
-    PtrBST InVertices;                      // all members whose friend is this user.
+    Table OutVertices;                     // all friends of this user.
+    Table InVertices;                      // all members whose friend is this user.
     PtrUser User;                           // info about the user.
     bool Isvalid;
 };
