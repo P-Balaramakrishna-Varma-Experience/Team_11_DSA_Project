@@ -7,8 +7,10 @@
 #include "Minheap.h"
 
 void ResizeHeap(MinHeap H);
+int MIN(int a, int b, int c);
+bool Is25Full(MinHeap H);
 bool IsFull(MinHeap H);
-void AdjustTop(MinHeap(H));
+void AdjustTop(MinHeap H);
 //return very large number in case does not exits
 int lchildH(int n, MinHeap H);
 int RchildH(int n, MinHeap H);
@@ -107,13 +109,18 @@ void RmLeastNum(MinHeap A)
 }
 
 //heapify but only on top. all elements are distinct assumes.
-void AdustTop(MinHeap H)
+void AdjustTop(MinHeap H)
 {
     int pNode = 0;
     // current local 3 tree.
+
     while (pNode <= H->LastIndex)
     {
-        int min = MIN(H->Heap[pNode], H->Heap[lchildH(pNode, H)], H->Heap[RchildH(pNode, H)]);
+        int left, right;
+        left = (lchildH(pNode,H) != INT_MAX) ? H->Heap[lchildH(pNode,H)] : INT_MAX;
+        right = (RchildH(pNode,H) != INT_MAX) ? H->Heap[RchildH(pNode,H)] : INT_MAX;
+
+        int min = MIN(H->Heap[pNode],left,right);
 
         if (min == H->Heap[pNode]) // termination case
             break;
@@ -121,9 +128,9 @@ void AdustTop(MinHeap H)
         //swaping
         int Next;
 
-        if (min == H->Heap[lchildH(pNode, H)])
+        if (min == left)
             Next = lchildH(pNode, H);
-        else
+        else    
             Next = RchildH(pNode, H);
 
         int temp = H->Heap[Next];
@@ -155,9 +162,9 @@ void AddNum(int a, MinHeap H)
         // paretn larger than child i must swap to hold min heap propery locally.
         int tem = H->Heap[Pnode];
         H->Heap[Pnode] = H->Heap[ParentH(Pnode, H)];
-        H->Heap[ParentH(Pnode, H)] = H->Heap[Pnode];
+        H->Heap[ParentH(Pnode, H)] = tem;
 
-        Pnode = ParentH(Pnode,H); // index for next iteration.
+        Pnode = ParentH(Pnode, H); // index for next iteration.
     }
 }
 
