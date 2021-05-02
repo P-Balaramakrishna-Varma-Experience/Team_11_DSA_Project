@@ -24,11 +24,13 @@ struct tab{
 };
 
 Table InitTable(int n); // creates a new table of size n
-Table ResizeTable(Table T); // resizes the table according to the resize array
+Table IncreaseTableSize(Table T); // increases the table size according to the resize array
+Table DecreaseTableSize(Table T); // decreases the table size according to the resize array
 void DeleteTable(Table T); // deletes the table
 NodePtr CreateNode(int a); // Linked list create function
 Table AddElement(Table T, int a); // adds an element to the table (caution do T = AddElement(T, a))
-void RemoveElement(Table T, int a); // removes an element from the table
+Table RemoveElement(Table T, int a); // removes an element from the table
+int IsPresent(Table T, int a); // returns whether 'a' is present in the table
 void PrintTable(Table T); // prints the table
 
 #endif

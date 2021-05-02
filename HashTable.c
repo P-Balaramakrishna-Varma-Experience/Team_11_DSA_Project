@@ -16,15 +16,30 @@ Table InitTable(int n) {
     return T;
 }
 
-Table ResizeTable(Table T) {
+Table IncreaseTableSize(Table T) {
     int resize_sizes[] = {101, 211, 401, 809, 1601, 3203, 6421, 12809, 25601};
     int i = 0;
     for(i = 0; i < 9; i++) {
-        if(T->size != resize_sizes[i]) {
+        if(T->NumElems < resize_sizes[i]) {
             break;
         }
     }
-    Table N = InitTable(resize_sizes[i]);
+    return ResizeTable(T, resize_sizes[i]);
+}
+
+Table DecreaseTableSize(Table T) {
+    int resize_sizes[] = {101, 211, 401, 809, 1601, 3203, 6421, 12809, 25601};
+    int i = 0;
+    for(i = 8; i >= 0; i--) {
+        if(T->NumElems > resize_sizes[i]) {
+            break;
+        }
+    }
+    return ResizeTable(T, resize_sizes[i]);
+}
+
+Table ResizeTable(Table T, int s) {
+    Table N = InitTable(s);
     if(N == NULL) {
         printf("Memory could not be allocated!!\n");
         assert(0);
@@ -66,7 +81,7 @@ NodePtr CreateNode(int a) {
 
 Table AddElement(Table T, int a) {
     if(T->NumElems + 1 > T->size) {
-        T = ResizeTable(T);
+        T = IncreaseTableSize(T);
     }
     int pos = a % T->size;
     NodePtr P = T->Bucket[pos];
@@ -74,14 +89,23 @@ Table AddElement(Table T, int a) {
     if(P == NULL) {
         T->Bucket[pos] = CreateNode(a);
     } else {
-        T->Bucket[pos] = CreateNode(a);
-        T->Bucket[pos]->Next = P;
+        while(P->Next != NULL) {
+            if(P->Elem == a) {
+                return T;
+            }
+            P = P->Next;
+        }
+        P->Next = CreateNode(a);
     }
     T->NumElems++;
     return T;
 }
 
-void RemoveElement(Table T, int a) {
+Table RemoveElement(Table T, int a) {
+    int factr = 4; // when to resize
+    if(T->NumElems - 1 == T->size / factr) {
+        T = DecreaseTableSize(T);
+    }
     int pos = a % T->size;
     if(T->Bucket[pos]->Elem == a) {
         NodePtr P = T->Bucket[pos]->Next;
@@ -90,16 +114,32 @@ void RemoveElement(Table T, int a) {
     } else {
         NodePtr P = T->Bucket[pos];
         while(P->Next != NULL && P->Next->Elem != a) {
-            continue;
+            P = P->Next;
         }
-        if(P->Next == NULL) {
+        if(P->Next == NULL) { // debugging statement
             printf("Element could not be found\n");
+            return T;
         } else {
             NodePtr N = P->Next;
             P->Next = N->Next;
             free(N);
         }
     }
+    T->NumElems--;
+    return T;
+}
+
+int IsPresent(Table T, int a) {
+    int pos = a % T->size;
+    NodePtr P = T->Bucket[pos];
+
+    while(P != NULL) {
+        if(P->Elem == a) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 void PrintTable(Table T) {
