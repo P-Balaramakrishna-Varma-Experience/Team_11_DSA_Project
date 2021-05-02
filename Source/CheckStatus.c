@@ -17,6 +17,7 @@ int search(NodePtr LLPtr,int b)
 
 int checkfriendship(Graph G,int a,int b)
 {
-    int status = search(&((G->UserArray[a])->OutVertices->Bucket[a]) , b);     // returns 1 if friend and
-    return status;                                                          // 0 if not a friend
+    int pos = a % (G->UserArray[b]->OutVertices->size);
+    int status = search(&((G->UserArray[b])->OutVertices->Bucket[pos]) , a);    // returns 1 if friend and
+    return status;                                                              // 0 if not a friend
 }
