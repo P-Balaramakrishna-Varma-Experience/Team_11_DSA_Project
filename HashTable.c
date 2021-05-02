@@ -4,14 +4,14 @@ Table InitTable(int n) {
     Table T = (Table)malloc(sizeof(table));
     if(T == NULL) {
         printf("Memory could not be allocated!!\n");
-        assert(0);
+        exit(0);
     }
     T->size = n;
     T->Bucket = (NodePtr*)calloc(T->size, sizeof(NodePtr));
     T->NumElems = 0;
     if(T->Bucket == NULL) {
         printf("Memory could not be allocated!!\n");
-        assert(0);
+        exit(0);
     }
     return T;
 }
@@ -42,7 +42,7 @@ Table ResizeTable(Table T, int s) {
     Table N = InitTable(s);
     if(N == NULL) {
         printf("Memory could not be allocated!!\n");
-        assert(0);
+        exit(0);
     }
     for(int j = 0; j < T->size; j++) {
         NodePtr P = T->Bucket[j];
@@ -72,6 +72,7 @@ NodePtr CreateNode(int a) {
     NodePtr P = (NodePtr)malloc(sizeof(struct Node));
     if(P == NULL) {
         printf("Memory could not be allocated!!\n");
+        exit(0);
     }
     P->Elem = a;
     P->Next = NULL;
@@ -137,6 +138,7 @@ int IsPresent(Table T, int a) {
         if(P->Elem == a) {
             return 1;
         }
+        P = P->Next;
     }
 
     return 0;
