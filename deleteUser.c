@@ -17,7 +17,7 @@ void deleteUser(Graph G, int user) {
             }
         }
         DeleteTable(T);
-        T = NULL;
+        P->InVertices = NULL;
 
         // same but for outvertices
         T = P->OutVertices;
@@ -34,9 +34,9 @@ void deleteUser(Graph G, int user) {
         }
 
         DeleteTable(T);
-        T = NULL;
+        P->OutVertices = NULL;
 
-        DeleteUserNode(P->User);
+        DeleteUserNode(P->User); // currently a dummy function
         P->Isvalid = false;
     }
 }
