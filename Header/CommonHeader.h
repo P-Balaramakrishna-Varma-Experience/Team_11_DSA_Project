@@ -29,7 +29,7 @@ typedef struct GraphS *Graph;
 
 struct GraphS
 {
-    PtrUserNode *UserArray;                // pointer to Adjacency list
+    PtrUserNode* UserArray;                // pointer to Adjacency list
     int MAX_Size;                          // book keeping for when to resize.
     int LastId;                            // book keeping for when to resize.
 };
@@ -60,9 +60,13 @@ struct tab
 
 struct details
 {
-    int ID;
-    int age;
-    char city[51];
+    int  ID;
+    int  Year;
+    char Name[51];
+    char Branch[10];
+    char Sports[31];
+    char Mess[21];
+    char Clubs[51];
 };
 
 struct parametercount
@@ -74,8 +78,9 @@ struct parametercount
 int key(struct parametercount* A , int dig);
 void CountSort(struct parametercount* Array, int Size_of_Array , int Range, int di,int* TempArray,struct parametercount* sortedArray);
 void RadixSort(struct parametercount* Array , int Size_of_Array);
-void InsertUser(Graph info,struct details* temp,int leastavailablepos);
-struct details* AcceptDetails(void);
+void InsertUser(Graph info,PtrUserNode Node,int leastavailablepos);
+PtrUserNode AcceptDetails(void);
+void toptenrecommendations(Graph info,PtrUserNode newuser,int arrsize,int numofparameter);
 
 
 #endif
