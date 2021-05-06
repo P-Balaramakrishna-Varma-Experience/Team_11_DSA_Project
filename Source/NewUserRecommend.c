@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "CommonHeader.h"
 
 int key(struct parametercount* A , int dig)
@@ -12,7 +14,7 @@ int key(struct parametercount* A , int dig)
 }
 
 
-//range 100000
+//range 15
 void CountSort(struct parametercount* Array, int Size_of_Array , int Range, int di,int* TempArray,struct parametercount* sortedArray)
 {
     struct parametercount* A = Array;
@@ -56,7 +58,7 @@ void CountSort(struct parametercount* Array, int Size_of_Array , int Range, int 
 
 void RadixSort(struct parametercount* Array , int Size_of_Array)
 {
-    int Range = 100000;                                         // Can be put as number of (parameters + 1)
+    int Range = 15;                                         // Can be put as number of (parameters + 1)
     int* TempArray = malloc((Range)*sizeof(int)); 
     struct parametercount* sortedArray = malloc((Size_of_Array)*sizeof(struct parametercount));
 
@@ -69,10 +71,10 @@ void RadixSort(struct parametercount* Array , int Size_of_Array)
 }
 
 
-void toptenrecommendations(Graph info,struct details* newuser,int arrsize,int numofparameters)// we will have t first display the top 10 recommendations and then add the new user to the struct array of PTR to ID's
+void toptenrecommendations(Graph info,PtrUserNode newuser,int arrsize,int numofparameter)// we will have t first display the top 10 recommendations and then add the new user to the struct array of PTR to ID's
 {
     int i;
-    struct parametercount* pcount = (struct parametercount**)malloc(arrsize*sizeof(struct parametercount));
+    struct parametercount* pcount = (struct parametercount*)malloc(arrsize*sizeof(struct parametercount));
     for(i=0;i<arrsize;i++)
     {
         pcount[i].PtrToDetails = NULL;
@@ -80,42 +82,71 @@ void toptenrecommendations(Graph info,struct details* newuser,int arrsize,int nu
     }
     for(i=0;i<arrsize;i++)
     {
-        if(info->UserArray[i]->User!=NULL)
+        if(info->UserArray[i]!=NULL && info->UserArray[i] != newuser)   // info->UserArray[i] != newuser is to ensure that the user doesnot check for common parameters with himself
         {
             pcount[i].PtrToDetails = info->UserArray[i]->User;
-            if(info->UserArray[i]->User->age == newuser->age)            //The code stores 1 value more than 
-            {                                                            //number of common parameters for ease
-                pcount[i].commoncount++;                               //in count sort 
+            // Checks for the similarity in year
+            if(info->UserArray[i]->User->Year == newuser->User->Year)     //The code stores 1 value more than 
+            {                                                           //number of common parameters for ease
+                pcount[i].commoncount++;                                //in count sort 
             }
-            if(strcmp(info->UserArray[i]->User->city,newuser->city)==0)
+            if(strcmp(info->UserArray[i]->User->Branch,newuser->User->Branch)==0) // Checks for similarity in the Branch
             {
                 pcount[i].commoncount++;
             }
-            (pcount[i].commoncount)++;
+            if(strcmp(info->UserArray[i]->User->Mess,newuser->User->Mess)==0)   // Checks for similarity in the Mess
+            {
+                pcount[i].commoncount++;
+            }
+            if(strcmp(info->UserArray[i]->User->Clubs,newuser->User->Clubs)==0) // Checks for similarity in the clubs
+            {
+                pcount[i].commoncount++;
+            }
+            if(strcmp(info->UserArray[i]->User->Sports,newuser->User->Sports)==0)   // Checks for similarity in the Sports interested
+            {
+                pcount[i].commoncount++;
+            }
+            (pcount[i].commoncount)++;                              // Final increment of 1 is to differentiate between a NULL user and a user with No similarly with the new user
         }
     }
+
+    // Printing pcount array
+
+    for(i=0;i<arrsize;i++)
+    {
+        printf("%d",pcount[i].commoncount);
+    }
+
+
     //////////////////////////////////////////////////////////////////////
     // Radix Sorting of pcount array on the basis of commoncount
 
-    RadixSort(pcount,info->LastId);
+    RadixSort(pcount, info->MAX_Size);
 
-    //End of Radix Sort
-    ////////////////////////////////////////////////////////////////////
+    // // //End of Radix Sort
+    // // ////////////////////////////////////////////////////////////////////
+    // printf("\n");
 
+
+    // for(i=0;i<arrsize;i++)
+    // {
+    //     printf("%d",pcount[i].commoncount);
+    // }
 
     printf("The Reommendations are :\n");
 
     
-    ////////////////////////////////////////////////////////////////////////////
-    // We can write code to display the top 10 (or less than 10) recommendations in random
-    // orderby using rand() for a group of UserID's with same number of common parameters
-    ////////////////////////////////////////////////////////////////////////////
-    for(i=(arrsize-1);i>arrsize-11;i--)
+    // // ////////////////////////////////////////////////////////////////////////////
+    // // // We can write code to display the top 10 (or less than 10) recommendations in random
+    // // // orderby using rand() for a group of UserID's with same number of common parameters
+    // // ////////////////////////////////////////////////////////////////////////////
+
+    for(i=(arrsize-1);(i>arrsize-11&&i>=0);i--)
     {
         if(pcount[i].PtrToDetails == NULL)
         {
             break;
         }
-        printf("%d\n",pcount[i].PtrToDetails->ID);
+        printf("%s\n",pcount[i].PtrToDetails->Name);
     }
 }
