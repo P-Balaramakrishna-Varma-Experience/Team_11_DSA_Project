@@ -1,7 +1,7 @@
 #ifndef __MY_DEQUE__
 #define __MY_DEQUE_
 
-typedef double GElementType;
+#include "Header/recomendationB.h"
 typedef struct Node *Deque;
 
 struct Node

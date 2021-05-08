@@ -19,7 +19,7 @@ struct recommondation
 };
 typedef struct recommondation *recommondation;
 
-int *Friends_Recomandation_old_user(Graph G, int Start, int K);
+void Friends_Recomandation_old_user(Graph G, int Start, int K);
 int BFS(Graph G, int start, recommondation *Array, int K);
 void Randomize(recommondation *A, int K, int *Ans);
 void Randomizeij(recommondation A[], int i, int j, int *Ans);
@@ -54,10 +54,10 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
     return;
 }
 
-void BFS(Graph G, int start, recommondation *Array, int K)
+int BFS(Graph G, int start, recommondation *Array, int K)
 {
     //creating the Array to store the colours.
-    int N = G->LastId + 1;
+    int N = G->MAX_Size;
     int *pColour = (int *)malloc(N * sizeof(int));
     assert(pColour != NULL);
 
@@ -76,7 +76,7 @@ void BFS(Graph G, int start, recommondation *Array, int K)
     recommondation u, v;
     int Last_index = -1; // index of last element strored in Array (size K)
 
-    while (!IsQueueEmpty(Q))
+    while (front != NULL)
     {
         u = pop();
         Table Neighbours = G->UserArray[u->id]->OutVertices;
@@ -109,6 +109,8 @@ void BFS(Graph G, int start, recommondation *Array, int K)
             Last_index++;
             Array[Last_index] = u;
         }
+        else
+            DeleteGElemType(u);
     }
 
     free(pColour);
