@@ -75,12 +75,22 @@ struct parametercount
     int commoncount;
 };
 
+typedef int *PtrInt;
+typedef struct MinHeapS *MinHeap;
+
+struct MinHeapS
+{
+    int MaxSize;
+    int LastIndex;
+    PtrInt Heap;
+};
+
 int key(struct parametercount* A , int dig);
 void CountSort(struct parametercount* Array, int Size_of_Array , int Range, int di,int* TempArray,struct parametercount* sortedArray);
 void RadixSort(struct parametercount* Array , int Size_of_Array);
-void InsertUser(Graph info,PtrUserNode Node,int leastavailablepos);
-PtrUserNode AcceptDetails(void);
-void toptenrecommendations(Graph info,PtrUserNode newuser,int arrsize,int numofparameter);
+void InsertUser(Graph info,MinHeap A,char name[],char branch[],int year , char mess[],char club[],char sports[]);
+PtrUserNode AcceptDetails(char name[],char branch[],int year,char mess[],char club[],char sports[]);
+void toptenrecommendations(Graph info,int newuserID);
 
 
 #endif
