@@ -1,30 +1,29 @@
 #ifndef __HASH_T
 #define __HASH_T
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
+#include "AllModule.h" 
 
 // This part is an implemetation of linked lists for the purpose of seperate chaining in hastable
 
-typedef  struct Node* NodePtr;
+typedef struct Node *NodePtr;
 typedef int ElementType;
 
-struct Node {
+struct Node
+{
     ElementType Elem;
     NodePtr Next;
 };
 
 // The part ends
 
-
 typedef struct tab table;
-typedef table* Table;
+typedef table *Table;
 
-struct tab{
+struct tab
+{
     int size;
     int NumElems;
-    NodePtr* Bucket;
+    NodePtr *Bucket;
 };
 
 // creates a new table of size n
@@ -53,9 +52,6 @@ int IsPresent(Table T, int a);
 
 // prints the table
 void PrintTable(Table T);
-
-
-
 
 // Linked list create function
 NodePtr CreateNode(int a);

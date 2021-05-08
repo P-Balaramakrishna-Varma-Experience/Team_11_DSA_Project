@@ -1,15 +1,10 @@
-#include "deque.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
-
+#include "../Header/AllModule.h" 
 
 
 void display(Deque front) //to print the elements present in the deque
 {
     Deque t = front;
-    if(t==NULL)
+    if (t == NULL)
     {
         printf("The list is empty\n");
         exit(0);
@@ -24,10 +19,10 @@ void display(Deque front) //to print the elements present in the deque
     }
 }
 
-struct Node *New() //to create a newnode
+struct NodeDq *New() //to create a newnode
 {
-    struct Node *new;
-    new = (struct Node *)malloc(sizeof(struct Node));
+    struct NodeDq *new;
+    new = (struct NodeDq *)malloc(sizeof(struct Node));
     //assert(new != NULL);
     return new;
 }
@@ -50,7 +45,7 @@ Deque inject(GElementType val1) // add element to the from the back end
     }
 }
 
-Deque push(GElementType val1)  //add element from the front side
+Deque push(GElementType val1) //add element from the front side
 {
     Deque new = New();
     new->val1 = val1;
@@ -67,7 +62,7 @@ Deque push(GElementType val1)  //add element from the front side
     }
 }
 
-GElementType pop()  // to delete the element from the front side
+GElementType pop() // to delete the element from the front side
 {
     if (front == NULL)
     {
@@ -119,13 +114,12 @@ GElementType eject() //to delete element from back side
 
 void DeleteDeque(void)
 {
-    while(front != NULL)
+    while (front != NULL)
     {
-       GElementType u = pop();
-       DeleteGElemType(u);
-    }    
+        GElementType u = pop();
+        DeleteGElemType(u);
+    }
 }
-
 
 int main()
 {
@@ -152,7 +146,6 @@ int main()
         {
             pop();
             display(front);
-            
         }
         else if (strcmp("eject", name) == 0)
         {

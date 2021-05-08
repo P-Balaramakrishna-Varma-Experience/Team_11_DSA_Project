@@ -1,6 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "../Header/recomendationB.h"
+#include "../Header/AllModule.h" 
 
 
 void PrintGElemType(GElementType G)

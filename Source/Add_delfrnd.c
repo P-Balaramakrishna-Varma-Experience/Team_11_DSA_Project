@@ -1,14 +1,12 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include"Graph.h"
-#include"HashTable.h"
+#include "../Header/AllModule.h" 
+
 
 void AddEdge(int A, int B, Graph G)
 {
 
-    void*FOUND=FindID(G->UserArray[A]->OutVertices,B);
+    int FOUND = IsPresent(G->UserArray[A]->OutVertices, B);
 
-    if (FOUND==NULL)
+    if (FOUND == 0)
     {
         AddElement(G->UserArray[A]->OutVertices, B);
         AddElement(G->UserArray[B]->InVertices, A);
@@ -19,9 +17,9 @@ void AddEdge(int A, int B, Graph G)
 
 void DeleteEdge(int A, int B, Graph G)
 {
-    void*FOUND=FindID(G->UserArray[A]->OutVertices,B);
+    int FOUND = IsPresent(G->UserArray[A]->OutVertices, B);
 
-    if (FOUND!=NULL)
+    if (FOUND != 0)
     {
         RemoveElement(G->UserArray[A]->OutVertices, B);
         RemoveElement(G->UserArray[B]->InVertices, A);
@@ -29,4 +27,3 @@ void DeleteEdge(int A, int B, Graph G)
 
     return;
 }
-

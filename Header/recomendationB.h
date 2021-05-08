@@ -9,7 +9,6 @@ struct recommondation
 typedef struct recommondation *recommondation;
 typedef recommondation GElementType;
 
-
 void PrintGElemType(GElementType G);
 void DeleteGElemType(GElementType G);
 

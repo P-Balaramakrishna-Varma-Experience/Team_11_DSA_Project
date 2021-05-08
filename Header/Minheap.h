@@ -1,11 +1,9 @@
 #ifndef MIN_HEAP
 #define MIN_HEAP
 
-#include <stdbool.h>
+#include "AllModule.h" 
 
 #define InitalSize_Heap 10
-
-
 
 typedef int *PtrInt;
 typedef struct MinHeapS *MinHeap;
@@ -23,8 +21,6 @@ struct MinHeapS
     MinHeapS.LastIndex: index of the last elemnt in the array. (start from 0) -1 if empty
     MinHeapS.Heap... pointer to the array.
 */
-
-
 
 MinHeap Init_min_heap();
 // Crates a minheap structure and returns its address.

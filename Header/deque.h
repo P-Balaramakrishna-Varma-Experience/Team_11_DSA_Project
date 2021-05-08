@@ -1,24 +1,24 @@
 #ifndef __MY_DEQUE__
 #define __MY_DEQUE_
 
-#include "Header/recomendationB.h"
-typedef struct Node *Deque;
+#include "AllModule.h"
+typedef struct NodeDq *Deque;
 
-struct Node
+struct NodeDq
 {
-    struct Node *next;
-    struct Node *prev;
+    struct NodeDq *next;
+    struct NodeDq *prev;
     GElementType val1;
     //GElementType val2;
 };
 Deque front, rear;
 
 void display(Deque front);
-struct Node *New() ;
-Deque push(GElementType val1) ;
+struct NodeDq *New();
+Deque push(GElementType val1);
 Deque inject(GElementType val1);
-GElementType pop() ;
-GElementType eject() ;
+GElementType pop();
+GElementType eject();
 void DeleteDeque();
 void PrintGElemType(GElementType X);
 
