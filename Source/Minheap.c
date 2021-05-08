@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <stdbool.h>
 #include <limits.h>
-
+#include <assert.h>
 #include "Minheap.h"
 
 void ResizeHeap(MinHeap H);
@@ -21,12 +20,21 @@ MinHeap Init_min_heap()
     MinHeap H;
 
     H = malloc(sizeof(struct MinHeapS));
-    assert(H != NULL);
+    if (H == NULL)
+    {
+        printf("Out of memory\n");
+        exit(0);
+    }
 
     H->LastIndex = -1;
     H->MaxSize = InitalSize_Heap;
     H->Heap = malloc(InitalSize_Heap * sizeof(int));
-    assert(H->Heap != NULL);
+
+    if (H->Heap == NULL)
+    {
+        printf("Out of memory\n");
+        exit(0);
+    }
 
     return H;
 }
@@ -44,7 +52,11 @@ void ResizeHeap(MinHeap H)
         return;
 
     H->Heap = realloc(H->Heap, New_Size * sizeof(int));
-    assert(H->Heap != NULL);
+    if (H->Heap == NULL)
+    {
+        printf("Out of memory\n");
+        exit(0);
+    }
 
     H->MaxSize = New_Size;
 }
@@ -61,7 +73,11 @@ bool Is25Full(MinHeap H)
 
 void Delete_min_heap(MinHeap *A) // do not send a null//test by valgrind.
 {
-    assert(*A != NULL);
+    if (*A == NULL)
+    {
+        printf("Passing null to Deleteminheap\n");
+        exit(0);
+    }
 
     MinHeap H = *A;
 
@@ -81,7 +97,11 @@ void Print_min_heap(MinHeap A)
 
 int LeastNum(MinHeap A)
 {
-    assert(!IsEmpty(A));
+    if (IsEmpty(A))
+    {
+        printf("You are asking least element of a empty min heap\n");
+        exit(0);
+    }
 
     return A->Heap[0];
 }
@@ -93,7 +113,11 @@ bool IsEmpty(MinHeap A)
 
 void RmLeastNum(MinHeap A)
 {
-    assert(!IsEmpty(A));
+    if (IsEmpty(A))
+    {
+        printf("You trying to remove least element of a empty min heap\n");
+        exit(0);
+    }
     //A is not empty
 
     if (A->LastIndex == 0)
@@ -117,10 +141,10 @@ void AdjustTop(MinHeap H)
     while (pNode <= H->LastIndex)
     {
         int left, right;
-        left = (lchildH(pNode,H) != INT_MAX) ? H->Heap[lchildH(pNode,H)] : INT_MAX;
-        right = (RchildH(pNode,H) != INT_MAX) ? H->Heap[RchildH(pNode,H)] : INT_MAX;
+        left = (lchildH(pNode, H) != INT_MAX) ? H->Heap[lchildH(pNode, H)] : INT_MAX;
+        right = (RchildH(pNode, H) != INT_MAX) ? H->Heap[RchildH(pNode, H)] : INT_MAX;
 
-        int min = MIN(H->Heap[pNode],left,right);
+        int min = MIN(H->Heap[pNode], left, right);
 
         if (min == H->Heap[pNode]) // termination case
             break;
@@ -130,7 +154,7 @@ void AdjustTop(MinHeap H)
 
         if (min == left)
             Next = lchildH(pNode, H);
-        else    
+        else
             Next = RchildH(pNode, H);
 
         int temp = H->Heap[Next];
