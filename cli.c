@@ -1,74 +1,99 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-/*
-#include "graph_bst.c"
-#include "HashTable.c"
-#include "parameter_bst.c"
-#include "deleteUser.c"
-#include "add_del_friends.c"
-*/
+#define WORD_LEN 50
+
 
 //#include "AllLibraries.h"
-
+#include "Graph.h"
+#include "Minheap.h"
+#include "HashTable.h"
 
 
 int main(void)
 {
 
-    //initialise minheap
-    //initialise graph
-    //initialise 
+    Minheap H;
+    Graph G;
+    Table T;
+    
 
-
-    char input[25];
+    printf("\e[1;1H\e[2J");
+    char input[WORD_LEN];
 
     //start page 0
-    printf("Welcome! Nice to see you on this beautiful day\n");
-    printf("register  login  quit\n");
-    printf("type your command here : ");
+    printf("Welcome! Nice to see you on this beautiful day (◕‿◕✿).\n\n");
+    printf("OPTIONS :   register        login       quit\n\n");
+    printf("Type your command here : ");
     scanf("%s", input);
 
+    while(strcmp(input, "register") && strcmp(input, "login") && strcmp(input, "quit") && strcmp(input, "\n") && strcmp(input, "\0"))
+    {
+        printf("Error : incorrect command\n");
+        printf("Please type your command again here : ");
+        scanf("%s", input);
+    }
     while(strcmp(input, "quit"))
 	{
-        //page 1
 		if(!strcmp(input, "register"))
 		{   
-            int age;
+            printf("\e[1;1H\e[2J");
+            int year;
             int userid;
-            char name[25];
-            char branch[4];
-            char club[25];
-            char mess[25];
+            char name[WORD_LEN];
+            char branch[WORD_LEN];
+            char club[WORD_LEN];
+            char mess[WORD_LEN];
+            char sport[WORD_LEN];
 
+            printf("Caution!    :   Do not use space or enter button while entering parameters.\n\n");
             printf("Enter name : ");
             scanf("%s", name);
+            /*
+            while(strcmp(name, "\n") && strcmp(name, "\0"))
+            {
+            printf("Error : invalid name\n");
+            printf("Please enter your name again here : ");
+            scanf("%s", name);
+            }
+            */
 
             printf("Enter age : ");
-            scanf("%d", &age);
+            scanf("%d", &year);
+            while(year < 0)
+            {
+            printf("Error : invalid age\n");
+            printf("Please enter your year again here : ");
+            scanf("%d", &year);
+            }
 
             printf("Enter branch : ");
             scanf("%s", branch);
 
+
             printf("Enter club : ");
             scanf("%s", club);
+
 
             printf("Enter mess : ");
             scanf("%s", mess);
 
+
+            printf("Enter sport : ");
+            scanf("%s", sport);
+
             //create account function
-            
-
+            printf("Congratulations, your account has been created successfully (~˘▾˘)~.\n\n");
             //insertuser(graph, minheap, all info)
-            printf("Congratulations, your account has been created successfully\n");
-            //userid = id generated from minheap = insert user return
+            InsertUser(G, H, name, branch, year, mess, club, sport);
 
-            printf("Your login ID is %d, use it to login\n", userid);
+            printf("\n\n");
+
             //login directly and give all menu options
             //recommend friends
             //add friends or exit
-            printf("register  login  exit\n");
-            printf("type your command here : ");
+            printf("OPTIONS :   login       quit\n\n");
+            printf("Type your command here : ");
             scanf("%s", input);
         }
 
@@ -78,218 +103,216 @@ int main(void)
             int loginid;
             printf("Enter login ID : ");
             scanf("%d", &loginid);
-            if(loginid) //G->userarray[loginid]
+            if(G->UserArray[loginid]) 
             {
                 //login function
-                printf("Welcome name, how is it going ?\n");  //add %s-name variable
-                printf("recommendations  friends-list   profile  unregister   back\n");
+                printf("\e[1;1H\e[2J");
+                printf("Hi, there ! (｡◕‿‿◕｡), how is it going ?\n\n");  
+                printf("MENU    :   recommendations     friends        profile     unregister      logout\n");
 
-                char enter[25];
-                printf("type your command here : ");
+                char enter[WORD_LEN];
+                printf("Type your command here : ");
                 scanf("%s", enter);
 
-                while(strcmp(enter, "back"))
+                while(strcmp(enter, "recommendations") && strcmp(enter, "friends-list") && strcmp(enter, "profile") && strcmp(enter, "unregister") && strcmp(enter, "logout") && strcmp(enter, "\n") && strcmp(enter, "\0"))
+                {
+                    printf("Error : incorrect command\n");
+                    printf("Please type your command again here : ");
+                    scanf("%s", enter);
+                }
+
+                while(strcmp(enter, "logout"))
                 {
                     if(!strcmp(enter, "recommendations"))
                     {
                         //show recommendations
-                        printf("insert recommendations list here\n");
+                        int k = 10;
+                        RecommendFriends(G, loginid, k); //prints recommendation list
                         //add friends
-                        char next[25];
-                        printf("add-friend id     back\n");
-                        printf("type your command here : ");
+                        char next[WORD_LEN];
+                        printf("SUBMENU :   befriend       back\n\n");
+                        printf("Type your command here : ");
                         
-                        scanf("%s", next); //%d
+                        scanf("%s", next);
 
                         while(strcmp(next, "back"))
                         {
-                            if(!strcmp(next, "add-friend"))
+                            if(!strcmp(next, "befriend"))
                             {
-                                int friend;
+                                int friend = loginid;
                                 printf("Enter friend id: ");
                                 scanf("%d", &friend);
-                                //add friend function(AddEdge(loginid, friend)
-                                printf("person has beeen added to your friends list\n");
+                                AddEdge(loginid, friend, G); // adds friend
+                                printf("Person has beeen added to your friends list (^̮^).\n\n");
                             }
-                            printf("add-friend     back\n");
-                            printf("type your command here : ");
+                            printf("SUBMENU :   befriend      back\n\n");
+                            printf("Type your command here : ");
                             scanf("%s", next);
                         }
                     }
 
-                    if(!strcmp(enter, "friends-list"))
+                    if(!strcmp(enter, "friends"))
                     {
-                        //print friends list
-                        printf("insert friend list here\n");
-                        //unfriend
-                        char next[25];
-                        printf("unfriend     check-status    back\n");
-                        printf("type your command here : ");
+                        PrintTable(T);//print friends list
+                        char next[WORD_LEN];
+                        printf("SUBMENU :   unfriend        check-status        back\n\n");
+                        printf("Type your command here : ");
                         scanf("%s", next);
                         while(strcmp(next, "back"))
                         {
                             if(!strcmp(next, "unfriend"))
                             {
-                                int friend;
+                                int friend = loginid;
                                 printf("Enter friend id: ");
                                 scanf("%d", &friend);
-                                //remove friend function
-                                //DelEgde(login, friend)
-                                printf("person has beeen removed from your friends list\n");
+                                DeleteEdge(loginid, friend, G); //remove friend function
+                                printf("Person has beeen removed from your friends list ¯/_(ツ)_/¯.\n\n");
                             }
                             else if(!strcmp(next, "check-status"))
                             {
-                                //check status function
-                                //char status[25];
                                 int friend;
                                 printf("Enter person id to check friendship status : ");
-                                scanf("%d", friend);
-                                int status;
-                                //status = check status function
-                                if(status)
+                                scanf("%d", &friend);
+                                if(checkfriendship(G, loginid, friend)) //return 1 if friend else 0
                                 {
-                                    printf("person is in your friends list\n");
+                                    printf("Person is in your friends list (ᵔᴥᵔ).\n\n");
                                 }
                                 else
                                 {
-                                    printf("person is not in your friends list\n");
+                                    printf("Person is not in your friends list ⚆ _ ⚆.\n\n");
                                 }
                             }
-                            printf("unfriend    check-status     back\n");
-                            printf("type your command here : ");
+                            printf("SUBMENU :   unfriend        check-status        back\n\n");
+                            printf("Type your command here : ");
                             scanf("%s", next);
                         }
                     }
 
-                    if(!strcmp(enter, "search"))
-                    {
-                        char find[25];
-                        printf("Enter a name to search for : ");
-                        scanf("%s", find);
-                        //search people
-                        //add friends
-                        char next[25];
-                        printf("add-friend     back\n");
-                        printf("type your command here : ");
-                        scanf("%s", next);
-
-                        while(strcmp(next, "back"))
-                        {
-                            if(!strcmp(next, "add-friend"))
-                            {
-                                //add friend function
-                                printf("person has beeen added to your friends list\n");
-                            }
-                            printf("add-friend     back\n");
-                            printf("type your command here : ");
-                            scanf("%s", next);
-                        }
-                    }
 
                     if(!strcmp(enter, "profile"))
                     {
                         //display details
                         printf("name : s\n");
-                        printf("age : s\n");
+                        printf("year : s\n");
                         printf("branch : s\n");
                         printf("club : s\n");
                         printf("mess : s\n");
+                        printf("sport : s\n");
                         //modify
-                        char next[25];
-                        printf("modify     back\n");
-                        printf("type your command here : ");
+                        char next[WORD_LEN];
+                        printf("SUBMENU :   modify      back\n\n");
+                        printf("Type your command here : ");
                         scanf("%s", next);
 
                         while(strcmp(next, "back"))
                         {
                             if(!strcmp(next, "modify"))
                             {
-                                char change[25];
-                                printf("name    age    branch    club    mess   back\n");
+                                char change[WORD_LEN];
+                                printf("MODIFY :   name        year     branch       club       mess       sport       back\n\n");
                                 printf("type your command here : ");
                                 scanf("%s", change);
                                 while(strcmp(change, "back"))
                                 {
+                                    printf("Caution : do not use space or enter button while entering parameters.\n\n");
                                     if(!strcmp(change, "name"))
                                     {
-                                        char name[25];
+                                        char name[WORD_LEN];
                                         printf("Enter new name : ");
                                         scanf("%s", name);
                                         //change name function
-                                        printf("name changed successfully\n");
+                                        printf("name changed successfully\n\n");
                                     }
-                                    if(!strcmp(change, "age"))
+                                    if(!strcmp(change, "year"))
                                     {
-                                        int age;
-                                        printf("Enter new age : ");
-                                        scanf("%d", &age);
+                                        int year;
+                                        printf("Enter new year : ");
+                                        scanf("%d", &year);
                                         //change age function
-                                        printf("age changed successfully\n");
+                                        printf("year changed successfully\n\n");
                                     }         
                                     if(!strcmp(change, "branch"))
                                     {
-                                        char branch[25];
+                                        char branch[WORD_LEN];
                                         printf("Enter new branch : ");
                                         scanf("%s", branch);
                                         //change branch function
-                                        printf("branch changed successfully\n");
+                                        printf("branch changed successfully\n\n");
                                     }   
                                     if(!strcmp(change, "club"))
                                     {
-                                        char club[25];
+                                        char club[WORD_LEN];
                                         printf("Enter new club : ");
                                         scanf("%s", club);
                                         //change club function
-                                        printf("club changed successfully\n");
+                                        printf("club changed successfully\n\n");
                                     }   
                                     if(!strcmp(change, "mess"))
                                     {
-                                        char mess[25];
+                                        char mess[WORD_LEN];
                                         printf("Enter new mess : ");
                                         scanf("%s", mess);
                                         //change mess function
-                                        printf("mess changed successfully\n");
-                                    }         
-                                    printf("name    age    branch    club    mess   back\n");
-                                    printf("type your command here : ");
+                                        printf("mess changed successfully\n\n");
+                                    } 
+                                    if(!strcmp(change, "sport"))
+                                    {
+                                        char sport[WORD_LEN];
+                                        printf("Enter new sport : ");
+                                        scanf("%s", sport);
+                                        //change mess function
+                                        printf("sport changed successfully\n\n");
+                                    }        
+                                    printf("MODIFY :   name        age     ranch       club        mess        back\n\n");
+                                    printf("Type your command here : ");
                                     scanf("%s", change);                   
                                 }
                             }
                             //display details
                             printf("name : s\n");
-                            printf("age : s\n");
+                            printf("year : s\n");
                             printf("branch : s\n");
                             printf("club : s\n");
                             printf("mess : s\n");
+                            printf("sport : s\n");
                             //modify
-                            printf("modify     back\n");
-                            printf("type your command here : ");
+                            printf("SUBMENU :   modify      back\n\n");
+                            printf("Type your command here : ");
                             scanf("%s", next);
                         }
                     }
 
                     if(!strcmp(enter, "unregister"))
                     {
-                        //deleteUser(graph, login)
-                        printf("account deleted succesfully\n");
-                        break;
+                        deleteUser(G, loginid, H);
+                        printf("\e[1;1H\e[2J");
+                        printf("Account deleted succesfully.\n\n");
+                        printf("We will miss you (>人<).\n\n");
+
+                        char exit[WORD_LEN];
+                        printf("Type anything to exit : ");
+                        scanf("%s", exit);
+                        if(!strcmp(exit, "exit"))
+                        {
+                            break;
+                        }
+                        else if(strcmp(exit, "exit"))
+                        {
+                            break;
+                        }
                     }
-                    printf("recommendations  friends-list   search   profile  unregister   back\n");
+                    printf("MENU    :   recommendations     friends      profile        unregister        logout\n");
                     printf("type your command here : ");
                     scanf("%s", enter);
                 }
             }
-            printf("Welcome! Nice to see you on this beautiful day\n");
-            printf("register  login  quit\n");
+            printf("\e[1;1H\e[2J");
+            printf("Welcome! Nice to see you on this beautiful day (◕‿◕✿).\n");
+            printf("OPTIONS :   register        login       quit\n\n");
             printf("type your command here : ");
             scanf("%s", input);
         }   
-        else
-        {
-            printf("incorrect command\n");
-            printf("type your command again here : ");
-            scanf("%s", input);
-        }
+        printf("\e[1;1H\e[2J");
     }
     
     return 0;
