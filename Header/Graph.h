@@ -31,19 +31,15 @@ struct GraphS
 {
     PtrUserNode *UserArray;                // pointer to Adjacency list
     int MAX_Size;                          // book keeping for when to resize.
-    int LastId;                            // book keeping for when to resize.
+    // int LastId;                            // book keeping for when to resize.
 };
 
 
 
-Graph Init_Graph(Graph G);
-void Print_Graph(Graph G);
-void Delete_Graph(Graph *PtrG);
+Graph Init_Graph(int n); // intializes a graph of size 'n' and returns its pointer
+Graph ResizeGraph(Graph G); // resizes the graph size to initial size * fact (currently fact = 5)
+void Print_Graph(Graph G); // Prints the Graph
+void DeleteGraph(Graph *PtrG); // Deletes the Graph, argument is a pointer to the concerned Graph
 
-void AddNode(int New_id, Graph G);
-void RemoveNode(int Del_Id, Graph G);
-void AddEdge(int A, int B, Graph G);
-bool checkEdge(int A, int B, Graph G);
-void PrintNode(int Node_id, Graph G);
-
+void DeleteUserNode(PtrUser* U); // Utility function for deleting G->User
 #endif

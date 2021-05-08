@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "graph.h": "c",
+        "hashtable.h": "c"
+    }
+}
