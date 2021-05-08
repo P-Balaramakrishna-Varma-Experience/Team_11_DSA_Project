@@ -31,8 +31,9 @@ PtrUserNode AcceptDetails(char name[],char branch[],int year , char mess[],char 
 
 }
 
-void InsertUser(Graph info,PtrUserNode Node,MinHeap A)
+void InsertUser(Graph info,MinHeap A,char name[],char branch[],int year , char mess[],char club[],char sports[])
 {
+    PtrUserNode Node = AcceptDetails(name,branch,year,mess,club,sports);
     int leastavailablepos = LeastNum(A);
     RmLeastNum(A);
     Node->ID = leastavailablepos;                   // There is no use to put ID number at 2 places, written only to understand from where to remove form

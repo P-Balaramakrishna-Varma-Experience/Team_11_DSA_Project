@@ -88,7 +88,7 @@ struct MinHeapS
 int key(struct parametercount* A , int dig);
 void CountSort(struct parametercount* Array, int Size_of_Array , int Range, int di,int* TempArray,struct parametercount* sortedArray);
 void RadixSort(struct parametercount* Array , int Size_of_Array);
-void InsertUser(Graph info,PtrUserNode Node,MinHeap A);
+void InsertUser(Graph info,MinHeap A,char name[],char branch[],int year , char mess[],char club[],char sports[]);
 PtrUserNode AcceptDetails(char name[],char branch[],int year,char mess[],char club[],char sports[]);
 void toptenrecommendations(Graph info,int newuserID);
 
