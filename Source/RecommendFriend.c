@@ -8,16 +8,21 @@
  * with no friends does not make sense                              *
  * **************************************************************** */
 
-#include "../Header/Graph.h"
+#include "../Header/AllModule.h" 
 
 
-void RecommendFriends(Graph G, int user, int k) {
-    if(G->UserArray[user] != NULL) { // if user exists
-        if(G->UserArray[user]->OutVertices == NULL) { // if user has no friends
+void RecommendFriends(Graph G, int user, int k)
+{
+    if (G->UserArray[user] != NULL)
+    { // if user exists
+        if (G->UserArray[user]->OutVertices == NULL)
+        { // if user has no friends
             printf("You do not have enough friends to get %d recommendations\n", k);
             printf("So we have recommended friends to you based on your simillar interets\n");
             toptenrecommendations(G, user);
-        } else { // if user has some friends
+        }
+        else
+        { // if user has some friends
             Friends_Recomandation_old_user(G, user, k);
         }
     }

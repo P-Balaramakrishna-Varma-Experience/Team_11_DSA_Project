@@ -1,52 +1,66 @@
-#include "../Header/HashTable.h"
+#include "../Header/AllModule.h" 
 
-Table InitTable(int n) {
+
+Table InitTable(int n)
+{
     Table T = (Table)malloc(sizeof(table)); // allocates memory for the table struct
-    if(T == NULL) { // failsafe condition
+    if (T == NULL)
+    { // failsafe condition
         printf("Memory could not be allocated!!\n");
         exit(0);
     }
-    T->size = n; // initializes size of the table
-    T->Bucket = (NodePtr*)calloc(T->size, sizeof(NodePtr)); // alloctes memory for the table array
-    T->NumElems = 0; // initializes the number of elements in the table as 0
-    if(T->Bucket == NULL) { // failsafe condition
+    T->size = n;                                             // initializes size of the table
+    T->Bucket = (NodePtr *)calloc(T->size, sizeof(NodePtr)); // alloctes memory for the table array
+    T->NumElems = 0;                                         // initializes the number of elements in the table as 0
+    if (T->Bucket == NULL)
+    { // failsafe condition
         printf("Memory could not be allocated!!\n");
         exit(0);
     }
     return T;
 }
 
-Table IncreaseTableSize(Table T) {
+Table IncreaseTableSize(Table T)
+{
     int resize_sizes[] = {101, 211, 401, 809, 1601, 3203, 6421, 12809, 25601}; // array to store designated resize values
     int i = 0;
-    for(i = 0; i < 9; i++) {
-        if(T->NumElems < resize_sizes[i]) { // finds the next greatest size in the array
+    for (i = 0; i < 9; i++)
+    {
+        if (T->NumElems < resize_sizes[i])
+        { // finds the next greatest size in the array
             break;
         }
     }
     return ResizeTable(T, resize_sizes[i]); // uses ResizeTable() as a utility function
 }
 
-Table DecreaseTableSize(Table T) {
+Table DecreaseTableSize(Table T)
+{
     int resize_sizes[] = {101, 211, 401, 809, 1601, 3203, 6421, 12809, 25601}; // array to store designated resize values
     int i = 0;
-    for(i = 8; i >= 0; i--) { 
-        if(T->NumElems > resize_sizes[i]) { // finds the next smaller size in the array
+    for (i = 8; i >= 0; i--)
+    {
+        if (T->NumElems > resize_sizes[i])
+        { // finds the next smaller size in the array
             break;
         }
     }
     return ResizeTable(T, resize_sizes[i]); // uses ResizeTable() as a utility function
 }
 
-Table ResizeTable(Table T, int s) {
+Table ResizeTable(Table T, int s)
+{
     Table N = InitTable(s); // creates a new table
-    if(N == NULL) {
+    if (N == NULL)
+    {
         printf("Memory could not be allocated!!\n");
         exit(0);
     }
-    for(int j = 0; j < T->size; j++) { // rehashes all the elements in the hashtable
+    for (int j = 0; j < T->size; j++)
+    { // rehashes all the elements in the hashtable
         NodePtr P = T->Bucket[j];
-        while(P != NULL) {
+        while (P != NULL)
+        {
             AddElement(N, P->Elem);
             P = P->Next;
         }
@@ -55,9 +69,12 @@ Table ResizeTable(Table T, int s) {
     return N;
 }
 
-void DeleteTable(Table T) {
-    for(int i = 0; i < T->size; i++) { // traverses through all the buckets
-        while(T->Bucket[i] != NULL) { // frees the nodes of every bucket in the hashtable
+void DeleteTable(Table T)
+{
+    for (int i = 0; i < T->size; i++)
+    { // traverses through all the buckets
+        while (T->Bucket[i] != NULL)
+        { // frees the nodes of every bucket in the hashtable
             NodePtr P = T->Bucket[i];
             T->Bucket[i] = T->Bucket[i]->Next;
             free(P);
@@ -67,18 +84,25 @@ void DeleteTable(Table T) {
     T = NULL;
 }
 
-Table AddElement(Table T, int a) {
-    if(T->NumElems + 1 > T->size) { // checks whether its time to resize
+Table AddElement(Table T, int a)
+{
+    if (T->NumElems + 1 > T->size)
+    { // checks whether its time to resize
         T = IncreaseTableSize(T);
     }
     int pos = a % T->size; // pos is the hashvalue
     NodePtr P = T->Bucket[pos];
 
-    if(P == NULL) { // checks if no other node in the bucket exists
+    if (P == NULL)
+    { // checks if no other node in the bucket exists
         T->Bucket[pos] = CreateNode(a);
-    } else {
-        while(P->Next != NULL) { // checks if the same node exists
-            if(P->Elem == a) {
+    }
+    else
+    {
+        while (P->Next != NULL)
+        { // checks if the same node exists
+            if (P->Elem == a)
+            {
                 return T;
             }
             P = P->Next;
@@ -89,25 +113,34 @@ Table AddElement(Table T, int a) {
     return T;
 }
 
-Table RemoveElement(Table T, int a) {
+Table RemoveElement(Table T, int a)
+{
     int factr = 4; // when to resize
-    if(T->NumElems - 1 == T->size / factr) { // checks if its time to resize
+    if (T->NumElems - 1 == T->size / factr)
+    { // checks if its time to resize
         T = DecreaseTableSize(T);
     }
     int pos = a % T->size; // pos is the hashvalue
-    if(T->Bucket[pos]->Elem == a) { // if the first node in the bucket is a itself
+    if (T->Bucket[pos]->Elem == a)
+    { // if the first node in the bucket is a itself
         NodePtr P = T->Bucket[pos]->Next;
         free(T->Bucket[pos]);
         T->Bucket[pos] = P;
-    } else {
+    }
+    else
+    {
         NodePtr P = T->Bucket[pos];
-        while(P->Next != NULL && P->Next->Elem != a) { // tries to find the required node
+        while (P->Next != NULL && P->Next->Elem != a)
+        { // tries to find the required node
             P = P->Next;
         }
-        if(P->Next == NULL) { // debugging statement
+        if (P->Next == NULL)
+        { // debugging statement
             printf("Element could not be found\n");
             return T;
-        } else { // deletes that node
+        }
+        else
+        { // deletes that node
             NodePtr N = P->Next;
             P->Next = N->Next;
             free(N);
@@ -117,12 +150,15 @@ Table RemoveElement(Table T, int a) {
     return T;
 }
 
-int IsPresent(Table T, int a) {
+int IsPresent(Table T, int a)
+{
     int pos = a % T->size; // pos is the hashvalue
     NodePtr P = T->Bucket[pos];
 
-    while(P != NULL) { // tries to find the element
-        if(P->Elem == a) { // return 1 if found
+    while (P != NULL)
+    { // tries to find the element
+        if (P->Elem == a)
+        { // return 1 if found
             return 1;
         }
     }
@@ -130,14 +166,20 @@ int IsPresent(Table T, int a) {
     return 0;
 }
 
-void PrintTable(Table T) {
-    for(int i = 0; i < T->size; i++) {
-        if(T->Bucket[i] == NULL) {
+void PrintTable(Table T)
+{
+    for (int i = 0; i < T->size; i++)
+    {
+        if (T->Bucket[i] == NULL)
+        {
             continue;
-        } else {
+        }
+        else
+        {
             NodePtr P = T->Bucket[i];
             printf("%d: ", i);
-            while(P != NULL) {
+            while (P != NULL)
+            {
                 printf("%d ", P->Elem);
                 P = P->Next;
             }
@@ -148,9 +190,11 @@ void PrintTable(Table T) {
 
 // utility function for seperate chaining
 
-NodePtr CreateNode(int a) {
+NodePtr CreateNode(int a)
+{
     NodePtr P = (NodePtr)malloc(sizeof(struct Node));
-    if(P == NULL) {
+    if (P == NULL)
+    {
         printf("Memory could not be allocated!!\n");
         exit(0);
     }

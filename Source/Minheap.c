@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <assert.h>
-#include "Minheap.h"
+#include "../Header/AllModule.h" 
 
 void ResizeHeap(MinHeap H);
 int MIN(int a, int b, int c);

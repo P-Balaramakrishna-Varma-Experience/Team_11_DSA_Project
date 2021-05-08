@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "../Header/Graph.h"
-#include "../deque.h"
-#include <assert.h>
-#include "../Header/HashTable.h"
+#include "../Header/AllModule.h" 
 
 #define WHITE 0
 //not visited not in que
@@ -24,7 +19,7 @@ int BFS(Graph G, int start, recommondation *Array, int K);
 void Randomize(recommondation *A, int K, int *Ans);
 void Randomizeij(recommondation A[], int i, int j, int *Ans);
 void DeleteRecommondationArray(recommondation *a, int K);
-void PrintAnsArray(int* Array,int N);
+void PrintAnsArray(int *Array, int N);
 
 void Friends_Recomandation_old_user(Graph G, int Start, int K)
 {
@@ -37,8 +32,6 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
         exit(0);
     }
 
-
-
     recommondation *A = malloc(sizeof(recommondation) * K);
 
     // Storing the nodes in preference of distance.
@@ -50,11 +43,10 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
 
     DeleteRecommondationArray(A, K);
 
-    PrintAnsArray(AnsArray,No_of_friends);
+    PrintAnsArray(AnsArray, No_of_friends);
 
     free(AnsArray);
     return;
-
 }
 
 int BFS(Graph G, int start, recommondation *Array, int K)
@@ -65,15 +57,15 @@ int BFS(Graph G, int start, recommondation *Array, int K)
     assert(pColour != NULL);
 
     // Initialize all nodes to white/not visited
-    for (int i = 0; i <= G->LastId; i++)
+    for (int i = 0; i <= G->MAX_Size; i++)
         pColour[i] = WHITE;
 
     //starting the breath first search with the first node.
     pColour[start] = GRAY; // Gray nodes are added to the queue
-    front = rear = NULL;  ////  Q = makeQUE();
+    front = rear = NULL;   ////  Q = makeQUE();
 
     recommondation Start = {start, 0};
-    inject(Start);      //pushing into que
+    inject(Start); //pushing into que
 
     //Progressing the BFS
     recommondation u, v;
@@ -96,8 +88,7 @@ int BFS(Graph G, int start, recommondation *Array, int K)
                     recommondation P = malloc(sizeof(recommondation));
                     P->id = Pnode->Elem;
                     P->level = u->level + 1;
-                    inject(P);    //push into a que
-
+                    inject(P); //push into a que
                 }
 
                 Pnode = Pnode->Next;
@@ -109,7 +100,7 @@ int BFS(Graph G, int start, recommondation *Array, int K)
         if (Last_index == K - 1) // the list is full.
             break;
 
-        if (Last_index != K - 1 && !checkfriendship(G,start, u->id) && u->id != start) // check friendship.
+        if (Last_index != K - 1 && !checkfriendship(G, start, u->id) && u->id != start) // check friendship.
         {
             Last_index++;
             Array[Last_index] = u;
@@ -171,10 +162,10 @@ void Randomize(recommondation *A, int K, int *Ans)
     }
 }
 
-void PrintAnsArray(int* A,int N)
+void PrintAnsArray(int *A, int N)
 {
-    for(int i = 0 ; i < N ; i++)
+    for (int i = 0; i < N; i++)
     {
-        printf("%d ",A[i]);
+        printf("%d ", A[i]);
     }
 }
