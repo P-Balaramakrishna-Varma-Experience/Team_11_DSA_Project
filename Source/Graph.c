@@ -38,7 +38,7 @@ void DeleteGraph(Graph *GP)
     *GP = NULL;
 }
 
-void PrintGraph(Graph G)
+void Print_Graph(Graph G)
 {
     for (int i = 0; i < G->MAX_Size; i++)
     {

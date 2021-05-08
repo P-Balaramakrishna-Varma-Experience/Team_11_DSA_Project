@@ -27,7 +27,7 @@ struct NodeDq *New() //to create a newnode
     return new;
 }
 
-Deque inject(GElementType val1) // add element to the from the back end
+void inject(GElementType val1) // add element to the from the back end
 {
     Deque new = New();
 
@@ -45,7 +45,7 @@ Deque inject(GElementType val1) // add element to the from the back end
     }
 }
 
-Deque push(GElementType val1) //add element from the front side
+void push(GElementType val1) //add element from the front side
 {
     Deque new = New();
     new->val1 = val1;
@@ -67,7 +67,7 @@ GElementType pop() // to delete the element from the front side
     if (front == NULL)
     {
         printf("Enter exit");
-        //exit(0);
+        exit(0);
     }
     else
     {
@@ -93,6 +93,7 @@ GElementType eject() //to delete element from back side
     if (front == NULL)
     {
         printf("Enter exit ");
+        exit(0);
     }
     else
     {
@@ -121,7 +122,7 @@ void DeleteDeque(void)
     }
 }
 
-int main()
+/* int main()
 {
     char name[10];
     printf("type : \npush--to add element from front\ninject--to add elememt from back\npop--to delete element from first\neject--delete element from last\nexit--to exit from the code\n");
@@ -157,4 +158,4 @@ int main()
             exit(0);
         }
     }
-}
+} */

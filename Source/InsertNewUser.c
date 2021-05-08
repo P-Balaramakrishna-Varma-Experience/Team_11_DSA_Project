@@ -39,7 +39,7 @@ Graph InsertUser(Graph info, MinHeap A, char name[], char branch[], int year, ch
     printf("You are successfully registered with the ID Number : %d\n", leastavailablepos);
     if (IsEmpty(A))
     {
-        Addnum((leastavailablepos + 1), A);
+        AddNum((leastavailablepos + 1), A);
     }
 
     return info;

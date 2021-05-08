@@ -15,8 +15,8 @@ Deque front, rear;
 
 void display(Deque front);
 struct NodeDq *New();
-Deque push(GElementType val1);
-Deque inject(GElementType val1);
+void push(GElementType val1);
+void inject(GElementType val1);
 GElementType pop();
 GElementType eject();
 void DeleteDeque();

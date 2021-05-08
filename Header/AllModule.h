@@ -8,13 +8,15 @@
 #include <assert.h>
 #include <limits.h>
 
-#include "deque.h"
-#include "Graph.h"
+#include "recomendationB.h"
 #include "HashTable.h"
 #include "Minheap.h"
-#include "recomendationB.h"
+#include "deque.h"
 #include "User.h"
+#include "Graph.h"
 
+
+#include "userfunc.h"
 
 void AddEdge(int A, int B, Graph G);
 void DeleteEdge(int A, int B, Graph G);

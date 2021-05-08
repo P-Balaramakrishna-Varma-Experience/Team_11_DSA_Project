@@ -1,21 +1,14 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include "Header/AllModule.h"
+
 #define WORD_LEN 50
-
-
-//#include "AllLibraries.h"
-#include "Graph.h"
-#include "Minheap.h"
-#include "HashTable.h"
 
 
 int main(void)
 {
 
-    Minheap H;
-    Graph G;
-    Table T;
+    MinHeap H = Init_min_heap();
+    AddNum(1,H);
+    Graph G = Init_Graph(1000);
     
 
     printf("\e[1;1H\e[2J");
@@ -39,7 +32,6 @@ int main(void)
 		{   
             printf("\e[1;1H\e[2J");
             int year;
-            int userid;
             char name[WORD_LEN];
             char branch[WORD_LEN];
             char club[WORD_LEN];
@@ -103,7 +95,7 @@ int main(void)
             int loginid;
             printf("Enter login ID : ");
             scanf("%d", &loginid);
-            if(G->UserArray[loginid]) 
+            if(loginid > 0 && G->UserArray[loginid]) 
             {
                 //login function
                 printf("\e[1;1H\e[2J");
@@ -153,7 +145,7 @@ int main(void)
 
                     if(!strcmp(enter, "friends"))
                     {
-                        PrintTable(T);//print friends list
+                        PrintTable(G->UserArray[loginid]->OutVertices);//print friends list seg..
                         char next[WORD_LEN];
                         printf("SUBMENU :   unfriend        check-status        back\n\n");
                         printf("Type your command here : ");

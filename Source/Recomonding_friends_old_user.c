@@ -7,13 +7,6 @@
 #define BLACK 2
 //visited
 
-struct recommondation
-{
-    int id;
-    int level;
-};
-typedef struct recommondation *recommondation;
-
 void Friends_Recomandation_old_user(Graph G, int Start, int K);
 int BFS(Graph G, int start, recommondation *Array, int K);
 void Randomize(recommondation *A, int K, int *Ans);
@@ -64,11 +57,13 @@ int BFS(Graph G, int start, recommondation *Array, int K)
     pColour[start] = GRAY; // Gray nodes are added to the queue
     front = rear = NULL;   ////  Q = makeQUE();
 
-    recommondation Start = {start, 0};
+    recommondation Start = malloc(sizeof(struct recommondation));
+    Start->id = start;
+    Start->level = 0;
     inject(Start); //pushing into que
 
     //Progressing the BFS
-    recommondation u, v;
+    recommondation u;
     int Last_index = -1; // index of last element strored in Array (size K)
 
     while (front != NULL)

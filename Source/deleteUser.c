@@ -1,4 +1,4 @@
-#include "../Header/AllModule.h" 
+#include "../Header/AllModule.h"
 
 /* ************************************************************* *
  * Deletes a user completely from our database                   * 
@@ -18,45 +18,51 @@ void deleteUser(Graph G, int user, MinHeap H)
     if (P != NULL)
     { // if User is present
         Table T = P->InVertices;
-        for (int i = 0; i < T->size; i++)
-        { // traverses thorugh the invertices table
-            if (T->Bucket[i] == NULL)
-            {
-                continue;
-            }
-            else
-            {
-                NodePtr P = T->Bucket[i];
-                while (P != NULL)
+        if (T != NULL)
+        {
+            for (int i = 0; i < T->size; i++)
+            { // traverses thorugh the invertices table
+                if (T->Bucket[i] == NULL)
                 {
-                    deleteUserOut(G, P->Elem, user); // deletes user from the outvetex lis of P->Elem
-                    P = P->Next;
+                    continue;
+                }
+                else
+                {
+                    NodePtr P = T->Bucket[i];
+                    while (P != NULL)
+                    {
+                        deleteUserOut(G, P->Elem, user); // deletes user from the outvetex lis of P->Elem
+                        P = P->Next;
+                    }
                 }
             }
+            DeleteTable(T);
         }
-        DeleteTable(T);
         P->InVertices = NULL;
 
         // same but for outvertices
         T = P->OutVertices;
-        for (int i = 0; i < T->size; i++)
+        if (T != NULL)
         {
-            if (T->Bucket[i] == NULL)
+            for (int i = 0; i < T->size; i++)
             {
-                continue;
-            }
-            else
-            {
-                NodePtr P = T->Bucket[i];
-                while (P != NULL)
+                if (T->Bucket[i] == NULL)
                 {
-                    deleteUserIn(G, P->Elem, user);
-                    P = P->Next;
+                    continue;
+                }
+                else
+                {
+                    NodePtr P = T->Bucket[i];
+                    while (P != NULL)
+                    {
+                        deleteUserIn(G, P->Elem, user);
+                        P = P->Next;
+                    }
                 }
             }
-        }
 
-        DeleteTable(T);
+            DeleteTable(T);
+        }
         P->OutVertices = NULL;
 
         DeleteUserNode(&(P->User));
