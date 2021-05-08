@@ -59,7 +59,7 @@ void deleteUser(Graph G, int user, MinHeap H)
         DeleteTable(T);
         P->OutVertices = NULL;
 
-        DeleteUserNode(P->User); // currently a dummy function
+        DeleteUserNode(&(P->User));
         P->Isvalid = false;
 
         AddNum(user, H); // updates the heap of ids
