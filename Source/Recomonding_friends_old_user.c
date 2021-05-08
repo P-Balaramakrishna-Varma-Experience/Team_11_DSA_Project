@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Graph.h"
-#include "Queues.h"
+#include "../Header/Graph.h"
+#include "../deque.h"
 #include <assert.h>
-#include "graph_bst.h"
+#include "../Header/HashTable.h"
 
 #define WHITE 0
 //not visited not in que
@@ -20,15 +20,16 @@ struct recommondation
 typedef struct recommondation *recommondation;
 
 int *Friends_Recomandation_old_user(Graph G, int Start, int K);
-void BFS(Graph G, int start, recommondation *Array, int K);
+int BFS(Graph G, int start, recommondation *Array, int K);
 void Randomize(recommondation *A, int K, int *Ans);
 void Randomizeij(recommondation A[], int i, int j, int *Ans);
 void DeleteRecommondationArray(recommondation *a, int K);
+void PrintAnsArray(int* Array,int N);
 
-int *Friends_Recomandation_old_user(Graph G, int Start, int K)
+void Friends_Recomandation_old_user(Graph G, int Start, int K)
 {
     //is start valid?
-    if (G->UserArray[Start]->Isvalid == false)
+    if (G->UserArray[Start] == NULL)
     {
         printf("Your recommemding friends to a user who is not there is %d(ID)\n\n", Start);
         Print_Graph(G);
@@ -40,15 +41,17 @@ int *Friends_Recomandation_old_user(Graph G, int Start, int K)
     recommondation *A = malloc(sizeof(recommondation) * K);
 
     // Storing the nodes in preference of distance.
-    BFS(G, Start, A, K);
+    int No_of_friends = BFS(G, Start, A, K);
 
-    int *AnsArray = malloc(sizeof(int) * K);
-    Randomize(A, K, AnsArray);
+    int *AnsArray = malloc(sizeof(int) * No_of_friends);
+    Randomize(A, No_of_friends, AnsArray);
 
-    DeleteRecommondationArray(AnsArray, K);
+    DeleteRecommondationArray(A, K);
 
-    return AnsArray;
-    // It is the user resposibility to free the memory of the array.
+    PrintAnsArray(AnsArray,No_of_friends);
+
+    free(AnsArray);
+    return;
 }
 
 void BFS(Graph G, int start, recommondation *Array, int K)
@@ -63,12 +66,11 @@ void BFS(Graph G, int start, recommondation *Array, int K)
         pColour[i] = WHITE;
 
     //starting the breath first search with the first node.
-    ptrQUE Q;
     pColour[start] = GRAY; // Gray nodes are added to the queue
-    Q = makeQUE();
+    front = rear = NULL;  ////  Q = makeQUE();
 
     recommondation Start = {start, 0};
-    Enqueue(Q, Start);
+    inject(Start);      //pushing into que
 
     //Progressing the BFS
     recommondation u, v;
@@ -76,7 +78,7 @@ void BFS(Graph G, int start, recommondation *Array, int K)
 
     while (!IsQueueEmpty(Q))
     {
-        u = Dequeue(Q);
+        u = pop();
         Table Neighbours = G->UserArray[u->id]->OutVertices;
 
         for (int i = 0; i < Neighbours->NumElems; i++) //iterating to all buckets
@@ -90,7 +92,7 @@ void BFS(Graph G, int start, recommondation *Array, int K)
                     recommondation P = malloc(sizeof(recommondation));
                     P->id = Pnode->Elem;
                     P->level = u->level + 1;
-                    Enqueue(Q, P);
+                    inject(P);    //push into a que
                 }
 
                 Pnode = Pnode->Next;
@@ -110,8 +112,8 @@ void BFS(Graph G, int start, recommondation *Array, int K)
     }
 
     free(pColour);
-    deleteQUE(Q);
-    return;
+    DeleteDeque();
+    return Last_index + 1;
 }
 
 void DeleteRecommondationArray(recommondation *a, int K)
@@ -159,5 +161,13 @@ void Randomize(recommondation *A, int K, int *Ans)
             Randomizeij(A, startlevel_index, i - 1, Ans);
             startlevel_index = i;
         }
+    }
+}
+
+void PrintAnsArray(int* A,int N)
+{
+    for(int i = 0 ; i < N ; i++)
+    {
+        printf("%d ",A[i]);
     }
 }
