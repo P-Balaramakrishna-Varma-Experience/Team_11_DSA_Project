@@ -120,7 +120,10 @@ GElementType eject() //to delete element from back side
 void DeleteDeque(void)
 {
     while(front != NULL)
-        pop();
+    {
+       GElementType u = pop();
+       DeleteGElemType(u);
+    }    
 }
 
 
