@@ -11,13 +11,14 @@ void display(Deque front) //to print the elements present in the deque
     Deque t = front;
     if(t==NULL)
     {
+        printf("The list is empty\n");
         exit(0);
     }
     else
     {
         while (t != NULL)
         {
-            printf("%.lf ", t->val1);
+            PrintGElemType(t->val1);
             t = t->next;
         }
     }
@@ -31,7 +32,7 @@ struct Node *New() //to create a newnode
     return new;
 }
 
-Deque inject(double val1) // add element to the from the back end
+Deque inject(GElementType val1) // add element to the from the back end
 {
     Deque new = New();
 
@@ -49,7 +50,7 @@ Deque inject(double val1) // add element to the from the back end
     }
 }
 
-Deque push(double val1)  //add element from the front side
+Deque push(GElementType val1)  //add element from the front side
 {
     Deque new = New();
     new->val1 = val1;
@@ -66,7 +67,7 @@ Deque push(double val1)  //add element from the front side
     }
 }
 
-void pop()  // to delete the element from the front side
+GElementType pop()  // to delete the element from the front side
 {
     if (front == NULL)
     {
@@ -85,11 +86,14 @@ void pop()  // to delete the element from the front side
         {
             front->prev = NULL;
         }
+
+        GElementType data_present = t->val1;
         free(t);
+        return data_present;
     }
 }
 
-void eject() //to delete element from back side
+GElementType eject() //to delete element from back side
 {
     if (front == NULL)
     {
@@ -107,9 +111,18 @@ void eject() //to delete element from back side
         {
             rear->next = NULL;
         }
+        GElementType data_present = t->val1;
         free(t);
+        return data_present;
     }
 }
+
+void DeleteDeque(void)
+{
+    while(front != NULL)
+        pop();
+}
+
 
 int main()
 {
