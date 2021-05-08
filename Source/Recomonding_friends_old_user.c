@@ -29,6 +29,7 @@ void PrintAnsArray(int* Array,int N);
 void Friends_Recomandation_old_user(Graph G, int Start, int K)
 {
     //is start valid?
+
     if (G->UserArray[Start] == NULL)
     {
         printf("Your recommemding friends to a user who is not there is %d(ID)\n\n", Start);
@@ -41,6 +42,7 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
     recommondation *A = malloc(sizeof(recommondation) * K);
 
     // Storing the nodes in preference of distance.
+
     int No_of_friends = BFS(G, Start, A, K);
 
     int *AnsArray = malloc(sizeof(int) * No_of_friends);
@@ -52,6 +54,7 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
 
     free(AnsArray);
     return;
+
 }
 
 void BFS(Graph G, int start, recommondation *Array, int K)
@@ -79,6 +82,7 @@ void BFS(Graph G, int start, recommondation *Array, int K)
     while (!IsQueueEmpty(Q))
     {
         u = pop();
+
         Table Neighbours = G->UserArray[u->id]->OutVertices;
 
         for (int i = 0; i < Neighbours->NumElems; i++) //iterating to all buckets
@@ -93,6 +97,7 @@ void BFS(Graph G, int start, recommondation *Array, int K)
                     P->id = Pnode->Elem;
                     P->level = u->level + 1;
                     inject(P);    //push into a que
+
                 }
 
                 Pnode = Pnode->Next;
