@@ -111,13 +111,6 @@ void toptenrecommendations(Graph info,int newuserID)// we will have t first disp
         }
     }
 
-    // Printing pcount array
-
-    for(i=0;i<(info->MAX_Size);i++)
-    {
-        printf("%d",pcount[i].commoncount);
-    }
-
 
     //////////////////////////////////////////////////////////////////////
     // Radix Sorting of pcount array on the basis of commoncount
@@ -126,15 +119,8 @@ void toptenrecommendations(Graph info,int newuserID)// we will have t first disp
 
     // // //End of Radix Sort
     // // ////////////////////////////////////////////////////////////////////
-    // printf("\n");
 
-
-    // for(i=0;i<arrsize;i++)
-    // {
-    //     printf("%d",pcount[i].commoncount);
-    // }
-
-    printf("The Reommendations are :\n");
+    
 
     
     // // ////////////////////////////////////////////////////////////////////////////
@@ -147,6 +133,9 @@ void toptenrecommendations(Graph info,int newuserID)// we will have t first disp
         printf("You are the only user in the System");
         return;
     }
+
+
+    printf("The Reommendations are :\n");
 
     for(i=((info->MAX_Size)-1);(i>(info->MAX_Size)-11&&i>=0);i--)
     {
