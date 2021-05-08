@@ -24,6 +24,7 @@ Graph InsertUser(Graph info, MinHeap A, char name[], char branch[], int year, ch
 void Friends_Recomandation_old_user(Graph G, int Start, int K);
 void toptenrecommendations(Graph info, int newuserID);
 void RecommendFriends(Graph G, int user, int k);
+void DeleteUserNode(PtrUser *U);
 
 
 
