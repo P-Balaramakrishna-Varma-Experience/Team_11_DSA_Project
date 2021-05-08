@@ -22,25 +22,32 @@ typedef struct recommondation *recommondation;
 int *Friends_Recomandation_old_user(Graph G, int Start, int K);
 void BFS(Graph G, int start, recommondation *Array, int K);
 void Randomize(recommondation *A, int K, int *Ans);
-void Work(Tree T, ptrQUE Q, int color[], int level);
-void ForAll(Tree T, ptrQUE Q, int pColor[], void operation(Tree, ptrQUE, int *, int), int level);
 void Randomizeij(recommondation A[], int i, int j, int *Ans);
 void DeleteRecommondationArray(recommondation *a, int K);
 
 int *Friends_Recomandation_old_user(Graph G, int Start, int K)
 {
-    //intializing A
+    //is start valid?
+    if (G->UserArray[Start]->Isvalid == false)
+    {
+        printf("Your recommemding friends to a user who is not there is %d(ID)\n\n", Start);
+        Print_Graph(G);
+        exit(0);
+    }
+
+
+
     recommondation *A = malloc(sizeof(recommondation) * K);
 
     // Storing the nodes in preference of distance.
     BFS(G, Start, A, K);
 
-    int *Ans = malloc(sizeof(int) * K);
+    int *AnsArray = malloc(sizeof(int) * K);
+    Randomize(A, K, AnsArray);
 
-    Randomize(A, K, Ans);
+    DeleteRecommondationArray(AnsArray, K);
 
-    DeleteRecommondationArray(A, K);
-    return Ans;
+    return AnsArray;
     // It is the user resposibility to free the memory of the array.
 }
 
@@ -70,15 +77,32 @@ void BFS(Graph G, int start, recommondation *Array, int K)
     while (!IsQueueEmpty(Q))
     {
         u = Dequeue(Q);
+        Table Neighbours = G->UserArray[u->id]->OutVertices;
 
-        ForAll(G->UserArray[u->id]->OutVertices, Q, pColour, Work, u->level + 1);
+        for (int i = 0; i < Neighbours->NumElems; i++) //iterating to all buckets
+        {
+            NodePtr Pnode = Neighbours->Bucket[i]->Next; // first value in bucket i;
+            while (Pnode != NULL)
+            {
+                if (pColour[Pnode->Elem] == WHITE)
+                {
+                    pColour[Pnode->Elem] = GRAY;
+                    recommondation P = malloc(sizeof(recommondation));
+                    P->id = Pnode->Elem;
+                    P->level = u->level + 1;
+                    Enqueue(Q, P);
+                }
+
+                Pnode = Pnode->Next;
+            }
+        }
 
         pColour[u->id] = BLACK;
 
         if (Last_index == K - 1) // the list is full.
             break;
 
-        if (Last_index != K - 1 && !Friend(start, u->id) && u->id != start) // check friendship.
+        if (Last_index != K - 1 && !checkfriendship(G,start, u->id) && u->id != start) // check friendship.
         {
             Last_index++;
             Array[Last_index] = u;
@@ -87,35 +111,7 @@ void BFS(Graph G, int start, recommondation *Array, int K)
 
     free(pColour);
     deleteQUE(Q);
-    // que is empty // or found K friends
-    //either case the BFS work is over.
     return;
-}
-
-void ForAll(Tree T, ptrQUE Q, int pColor[], void operation(Tree, ptrQUE, int *, int), int level)
-{
-    if (T != NULL)
-    {
-        ForAll(T->left, Q, pColor, operation, level);
-        operation(T, Q, pColor, level);
-        ForAll(T->right, Q, pColor, operation, level);
-    }
-}
-
-void Work(Tree T, ptrQUE Q, int color[], int level)
-{
-    //T != Null.
-    int p = T->id;
-    if (color[p] == WHITE)
-    {
-        color[p] = GRAY; // Gray nodes are added to the queue
-
-        recommondation P = malloc(sizeof(recommondation));
-        P->id = p;
-        P->level = level;
-
-        Enqueue(Q, P);
-    }
 }
 
 void DeleteRecommondationArray(recommondation *a, int K)
