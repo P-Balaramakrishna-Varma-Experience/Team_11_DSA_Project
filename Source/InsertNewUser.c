@@ -6,8 +6,8 @@ PtrUserNode AcceptDetails(char name[], char branch[], int year, char mess[], cha
     PtrUserNode Node = (PtrUserNode)malloc(sizeof(struct UserNode));
     assert(Node != NULL);
 
-    Node->InVertices = NULL;
-    Node->OutVertices = NULL;
+    Node->InVertices = InitTable(101);
+    Node->OutVertices = InitTable(101);
 
     struct details *temp = (struct details *)malloc(sizeof(struct details));
     assert(temp != NULL);
