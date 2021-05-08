@@ -71,16 +71,17 @@ void RadixSort(struct parametercount* Array , int Size_of_Array)
 }
 
 
-void toptenrecommendations(Graph info,PtrUserNode newuser,int arrsize,int numofparameter)// we will have t first display the top 10 recommendations and then add the new user to the struct array of PTR to ID's
+void toptenrecommendations(Graph info,int newuserID)// we will have t first display the top 10 recommendations and then add the new user to the struct array of PTR to ID's
 {
     int i;
-    struct parametercount* pcount = (struct parametercount*)malloc(arrsize*sizeof(struct parametercount));
-    for(i=0;i<arrsize;i++)
+    PtrUserNode newuser = info->UserArray[newuserID];
+    struct parametercount* pcount = (struct parametercount*)malloc((info->MAX_Size)*sizeof(struct parametercount));
+    for(i=0;(info->MAX_Size);i++)
     {
         pcount[i].PtrToDetails = NULL;
         pcount[i].commoncount = 0;
     }
-    for(i=0;i<arrsize;i++)
+    for(i=0;i<(info->MAX_Size);i++)
     {
         if(info->UserArray[i]!=NULL && info->UserArray[i] != newuser)   // info->UserArray[i] != newuser is to ensure that the user doesnot check for common parameters with himself
         {
@@ -112,7 +113,7 @@ void toptenrecommendations(Graph info,PtrUserNode newuser,int arrsize,int numofp
 
     // Printing pcount array
 
-    for(i=0;i<arrsize;i++)
+    for(i=0;i<(info->MAX_Size);i++)
     {
         printf("%d",pcount[i].commoncount);
     }
@@ -141,7 +142,13 @@ void toptenrecommendations(Graph info,PtrUserNode newuser,int arrsize,int numofp
     // // // orderby using rand() for a group of UserID's with same number of common parameters
     // // ////////////////////////////////////////////////////////////////////////////
 
-    for(i=(arrsize-1);(i>arrsize-11&&i>=0);i--)
+    if(pcount[(info->MAX_Size)-1].PtrToDetails == NULL)
+    {
+        printf("You are the only user in the System");
+        return;
+    }
+
+    for(i=((info->MAX_Size)-1);(i>(info->MAX_Size)-11&&i>=0);i--)
     {
         if(pcount[i].PtrToDetails == NULL)
         {

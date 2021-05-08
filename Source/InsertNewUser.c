@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <assert.h>
 
-PtrUserNode AcceptDetails(void) // other parameters can be added later
+
+PtrUserNode AcceptDetails(char name[],char branch[],int year , char mess[],char club[],char sports[]) // other parameters can be added later
 {
     PtrUserNode Node = (PtrUserNode)malloc(sizeof(struct UserNode));
     assert(Node!=NULL);
@@ -13,37 +14,29 @@ PtrUserNode AcceptDetails(void) // other parameters can be added later
 
     struct details* temp = (struct details*)malloc(sizeof(struct details));
     assert(temp!=NULL);
-    //printf("Enter your Name :");
-    scanf("%s",temp->Name);
 
-    //printf("Enter your Branch :");
-    scanf("%s",temp->Branch);
 
-    //printf("Enter your Year :");
-    scanf("%d",&temp->Year);
+    strcpy(temp->Name,name);
+    strcpy(temp->Branch,branch);
+    temp->Year = year;
+    strcpy(temp->Mess,mess);
+    strcpy(temp->Clubs,club);
+    strcpy(temp->Sports,sports);
 
-    //printf("Enter your Mess :");
-    scanf("%s",temp->Mess);
 
-    //printf("Enter the club you are in :");
-    scanf("%s",temp->Clubs);
-
-    //printf("Enter your coding Level (Level A being highest and F being lowest");
-    // scanf("%c",&temp->CodingLevel);
-
-    //printf("Enter your favorite Sport :");
-    scanf("%s",temp->Sports);
-    
     Node->User = temp;
 
     return Node;
+
+
 }
 
-void InsertUser(Graph info,PtrUserNode Node,int leastavailablepos)
+void InsertUser(Graph info,PtrUserNode Node,MinHeap A)
 {
+    int leastavailablepos = LeastNum(A);
+    RmLeastNum(A);
     Node->ID = leastavailablepos;                   // There is no use to put ID number at 2 places, written only to understand from where to remove form
     Node->User->ID = leastavailablepos;             // We can remove the ID from either of the place
     info->UserArray[leastavailablepos] = Node;   	// Adds the user at the least available position      
-
-    //printf("You are successfully registered with the ID Number : %d",leastavailablepos);
+    printf("You are successfully registered with the ID Number : %d",leastavailablepos);
 }
