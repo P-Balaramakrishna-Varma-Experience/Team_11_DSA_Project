@@ -1,9 +1,18 @@
 #include "Graph.h"
 #include "HashTable.h"
+#include "Minheap.h"
 
-void deleteUser(Graph G, int user) {
+/* ************************************************************* *
+ * Deletes a user completely from our database                   * 
+ * Deletes the user from the friend lists of the concerned users *
+ * Deletes the node itself                                       *
+ * Updates the heap keeping track of unused ids                  *
+ * Takes arguments as the Graph of user, the user to be deleted  *
+ * and the heap taking care of the ids                           *
+ * ************************************************************* */
+void deleteUser(Graph G, int user, Minheap H) {
     PtrUserNode P = G->UserArray[user]; // P is the struct at the user index
-    if(P->Isvalid) { // if User is present
+    if(P != NULL) { // if User is present
         Table T = P->InVertices;
         for(int i = 0; i < T->size; i++) { // traverses thorugh the invertices table
             if(T->Bucket[i] == NULL) {
@@ -38,8 +47,15 @@ void deleteUser(Graph G, int user) {
 
         DeleteUserNode(P->User); // currently a dummy function
         P->Isvalid = false;
+
+        AddNum(user, H); // updates the heap of ids
     }
 }
+
+
+/* **************** *
+ * Helper functions *
+ * **************** */
 
 // goes to the user u and deletes the user v from outvertices
 void deleteUserOut(Graph G, int u, int v) {
