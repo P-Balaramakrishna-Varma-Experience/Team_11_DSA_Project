@@ -11,9 +11,9 @@ int main()
     InsertUser(G, H, "Aman", "A", 12, "AM", "AC", "AS");
     
 
-    for(int i = 0 ; i < 1000;i++)
+    for(int i = 0 ; i < 1000 ;i++)
     {
-        for(int j = 0 ; j < 200 ; j++)
+        for(int j = 0 ; j < 150 ; j++)
         {
             int a = rand()%1000 + 1;
             AddEdge(i+1,a,G);
@@ -23,10 +23,10 @@ int main()
     }
     Print_Graph(G);
     printf("\n\n");
-    Friends_Recomandation_old_user(G,1,500);
+    Friends_Recomandation_old_user(G,1,100);
     printf("\n");
 
     //Print_Graph(G);
-    DeleteGraph(&G);
-    Delete_min_heap(&H);
+    //DeleteGraph(&G);
+    //Delete_min_heap(&H);
 }
