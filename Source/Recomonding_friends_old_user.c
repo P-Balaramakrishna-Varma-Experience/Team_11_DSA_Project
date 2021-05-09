@@ -8,11 +8,11 @@
 //visited
 
 void Friends_Recomandation_old_user(Graph G, int Start, int K);
-int BFS(Graph G, int start, recommondation *Array, int K);
-void Randomize(recommondation *A, int K, int *Ans);
-void Randomizeij(recommondation A[], int i, int j, int *Ans);
-void DeleteRecommondationArray(recommondation *a, int K);
-void PrintAnsArray(int *Array, int N);
+int BFS(Graph G, int start, recommondation Array[], int K);
+void Randomize(recommondation A[], int K, int Ans[]);
+void Randomizeij(recommondation A[], int i, int j, int Ans[]);
+void DeleteRecommondationArray(recommondation a[], int K);
+void PrintAnsArray(int Array[], int N);
 
 void Friends_Recomandation_old_user(Graph G, int Start, int K)
 {
@@ -25,7 +25,7 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
         exit(0);
     }
 
-    recommondation *A = malloc(sizeof(recommondation) * K);
+    recommondation A[K];
     if (A == NULL)
     {
         printf("Out of memory\n");
@@ -34,20 +34,27 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
 
     // Storing the nodes in preference of distance.
     int No_of_friends = BFS(G, Start, A, K);
-
-    int *AnsArray = malloc(sizeof(int) * No_of_friends);
+    //printf("\n\n%d\n\n\n",No_of_friends);
+    
+    /* int *AnsArray = malloc(sizeof(int) * No_of_friends);
+    //int *AnsArray = calloc(No_of_friends,sizeof(int));
     if (AnsArray == NULL)
     {
         printf("Out of memory\n");
         exit(0);
-    }
+    } */
+    int AnsArray[No_of_friends];
+    for(int i = 0 ; i < No_of_friends; i++)
+        AnsArray[i] = 0;
+
     Randomize(A, No_of_friends, AnsArray);
     PrintAnsArray(AnsArray, No_of_friends);
     DeleteRecommondationArray(A, K);
-    free(AnsArray);
+    
+    //free(AnsArray);
 }
 
-int BFS(Graph G, int start, recommondation *Array, int K)
+int BFS(Graph G, int start, recommondation Array[], int K)
 {
     //creating the Array to store the colours.
     int N = G->MAX_Size;
@@ -114,17 +121,16 @@ int BFS(Graph G, int start, recommondation *Array, int K)
     return Last_index + 1;
 }
 
-void DeleteRecommondationArray(recommondation *a, int K)
+ void DeleteRecommondationArray(recommondation a[], int K)
 {
     for (int i = 0; i < K; i++)
     {
         free(a[i]);
     }
-    free(a);
     // not using double pointers due to over confusio.
-}
+} 
 
-void Randomizeij(recommondation *A, int i, int j, int *Ans) //int k is reduntand
+void Randomizeij(recommondation A[], int i, int j, int Ans[]) //int k is reduntand
 {
     //asume srand is intialized;
     int ranNum;
@@ -144,7 +150,7 @@ void Randomizeij(recommondation *A, int i, int j, int *Ans) //int k is reduntand
     }
 }
 
-void Randomize(recommondation *A, int length_of_recomArray, int *Ans)
+void Randomize(recommondation A[], int length_of_recomArray, int Ans[])
 {
     int plevel = 2;
     int startlevel_index = 0;
@@ -165,7 +171,7 @@ void Randomize(recommondation *A, int length_of_recomArray, int *Ans)
     Randomizeij(A,startlevel_index,length_of_recomArray-1,Ans);
 }
 
-void PrintAnsArray(int *A, int N)
+void PrintAnsArray(int A[], int N)
 {
     for (int i = 0; i < N; i++)
     {
