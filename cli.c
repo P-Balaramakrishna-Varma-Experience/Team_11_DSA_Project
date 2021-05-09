@@ -41,17 +41,17 @@ int main(void)
 
             printf("Caution!    :   Do not use space(except full name) or enter button while entering parameters\n\n");
             printf("Enter name : ");
-            fgets(name, WORD_LEN, stdin); //scans full name, remove if does not work, use scanf instead
-            //scanf("%s", name);
+            //fgets(name, WORD_LEN, stdin); //scans full name, remove if does not work, use scanf instead
+            scanf("%s", name);
            
-            getchar();
-            printf("Enter year : ");
+            //getchar(); 
+            printf("Enter academic year : ");
             scanf("%d", &year);
             while(year <= 0 || year > 10)
             {
-                getchar();
-                printf("Error : invalid year\n");
-                printf("Please enter your year again here : ");
+                //getchar();
+                printf("Error : invalid academic year\n");
+                printf("Please enter your academic year again here : ");
                 scanf("%d", &year);
             }
 
@@ -73,16 +73,17 @@ int main(void)
             printf("\n\n");
             //create account function
             printf("Congratulations, your account has been created successfully (~˘▾˘)~.\n\n");
-            InsertUser(G, H, name, branch, year, mess, club, sport);
-
+            printf("everything is fine all good\n\n\n");
+            G = InsertUser(G, H, name, branch, year, mess, club, sport);
+            printf("everything is fine all good\n\n\n");
             printf("\n\n");
 
             //next availible options
 
-            printf("OPTIONS :   login       quit\n\n");
+            printf("OPTIONS :   login       home\n\n");
             printf("Type your command here : ");
             scanf("%s", input);
-            while(strcmp(input, "login") && strcmp(input, "quit"))
+            while(strcmp(input, "login") && strcmp(input, "home"))
             {
                 printf("Error : incorrect OPTIONS command.\n\n");
                 printf("Please type your command again here : ");
@@ -96,7 +97,8 @@ int main(void)
             int loginid;
             printf("Enter login ID : ");
             scanf("%d", &loginid);
-            while(loginid <= 0  && G->UserArray[loginid] == NULL)
+            printf("%d\n\n\n\n",loginid);
+            while(loginid <= 0  || G->UserArray[loginid] == NULL)
             {
                     printf("Error : login ID does not exist.\n\n");
                     printf("Enter login ID again or press 0 to go back: ");
@@ -131,6 +133,16 @@ int main(void)
                     {
                         //show recommendations
                         int k = 10;
+                        printf("How many friend recommendation do you want? : ");
+                        scanf("%d",&k);
+                        printf("\n");
+                        while(k <= 0)
+                        {
+                            printf("Error: Inavlid Input\n");
+                            printf("Please enter how many friend recommendation do you want? : ");
+                            scanf("%d",&k);
+                        }
+
                         RecommendFriends(G, loginid, k); //prints recommendation list
                         //add friends
                         char next[WORD_LEN];
@@ -152,7 +164,7 @@ int main(void)
                                 int person = loginid;
                                 printf("Enter person ID: ");
                                 scanf("%d", &person);
-                                while(person <= 0 && G->UserArray[person] == NULL)
+                                while(person <= 0 || G->UserArray[person] == NULL)
                                 {
                                     printf("Error : person ID does not exist.\n\n");
                                     printf("Enter person ID again or enter 0 to exit : ");
@@ -163,9 +175,9 @@ int main(void)
                                         break;
                                     }
                                 }
-                                AddEdge(loginid, person, G); // adds friend
                                 if(person != 0)
                                 {
+                                    AddEdge(loginid, person, G); // adds friend
                                     printf("Person has beeen added to your friends list (^̮^).\n\n");
                                 }
                             }
@@ -198,7 +210,7 @@ int main(void)
                                 int friend = loginid;
                                 printf("Enter friend id: ");
                                 scanf("%d", &friend);
-                                while(friend <= 0 && G->UserArray[friend] == NULL)
+                                while(friend <= 0 || G->UserArray[friend] == NULL)
                                 {
                                     printf("Error : friend ID does not exist.\n\n");
                                     printf("Enter friend ID again or enter 0 to exit : ");
@@ -209,9 +221,9 @@ int main(void)
                                         break;
                                     }
                                 }
-                                DeleteEdge(loginid, friend, G); //remove friend function
                                 if(friend != 0)
                                 {
+                                    DeleteEdge(loginid, friend, G); //remove friend function
                                     printf("Person has beeen removed from your friends list ¯/_(ツ)_/¯.\n\n");
                                 }
                             }
@@ -220,7 +232,7 @@ int main(void)
                                 int person;
                                 printf("Enter person id to check friendship status : ");
                                 scanf("%d", &person);
-                                while(person <= 0 && G->UserArray[person] == NULL)
+                                while(person <= 0 || G->UserArray[person] == NULL)
                                 {
                                     printf("Error : person ID does not exist.\n\n");
                                     printf("Enter person ID again or enter 0 to exit : ");
@@ -232,13 +244,16 @@ int main(void)
                                     }
                                 }
                                 //if(checkfriendship(G, loginid, friend)) //return 1 if friend else 0
-                                if(checkfriendship(G, loginid, person))
+                                if (person != 0)
                                 {
-                                    printf("Person is in your friends list (ᵔᴥᵔ).\n\n");
-                                }
-                                else
-                                {
-                                    printf("Person is not in your friends list ⚆ _ ⚆.\n\n");
+                                    if (checkfriendship(G, loginid, person))
+                                    {
+                                        printf("Person is in your friends list (ᵔᴥᵔ).\n\n");
+                                    }
+                                    else
+                                    {
+                                        printf("Person is not in your friends list ⚆ _ ⚆.\n\n");
+                                    }
                                 }
                             }
                             if(strcmp(next, "back"))
@@ -254,12 +269,12 @@ int main(void)
                     if(!strcmp(enter, "profile"))
                     {
                         //display details
-                        printf("name : s\n");
-                        printf("year : s\n");
-                        printf("branch : s\n");
-                        printf("club : s\n");
-                        printf("mess : s\n");
-                        printf("sport : s\n");
+                        printf("name : %s\n",G->UserArray[loginid]->User->Name);
+                        printf("academic year : %d\n",G->UserArray[loginid]->User->Year);
+                        printf("branch : %s\n",G->UserArray[loginid]->User->Branch);
+                        printf("club : %s\n",G->UserArray[loginid]->User->Clubs);
+                        printf("mess : %s\n",G->UserArray[loginid]->User->Mess);
+                        printf("sport : %s\n",G->UserArray[loginid]->User->Sports);
                         //modify
                         char next[WORD_LEN];
                         printf("SUBMENU :   modify      back\n\n");
@@ -294,23 +309,23 @@ int main(void)
                                         char name[WORD_LEN];
                                         printf("Enter new name : ");
                                         scanf("%s", name);
-                                        //change name function
+                                        strcpy(G->UserArray[loginid]->User->Name,name);
                                         printf("name changed successfully\n\n");
                                     }
                                     if(!strcmp(change, "year"))
                                     {
                                         int year;
-                                        printf("Enter new year : ");
+                                        printf("Enter new academic year : ");
                                         scanf("%d", &year);
-                                        //change age function
-                                        printf("year changed successfully\n\n");
+                                        G->UserArray[loginid]->User->Year = year;
+                                        printf("academic year changed successfully\n\n");
                                     }         
                                     if(!strcmp(change, "branch"))
                                     {
                                         char branch[WORD_LEN];
                                         printf("Enter new branch : ");
                                         scanf("%s", branch);
-                                        //change branch function
+                                        strcpy(G->UserArray[loginid]->User->Branch,branch);
                                         printf("branch changed successfully\n\n");
                                     }   
                                     if(!strcmp(change, "club"))
@@ -318,7 +333,7 @@ int main(void)
                                         char club[WORD_LEN];
                                         printf("Enter new club : ");
                                         scanf("%s", club);
-                                        //change club function
+                                        strcpy(G->UserArray[loginid]->User->Clubs,club);
                                         printf("club changed successfully\n\n");
                                     }   
                                     if(!strcmp(change, "mess"))
@@ -326,7 +341,7 @@ int main(void)
                                         char mess[WORD_LEN];
                                         printf("Enter new mess : ");
                                         scanf("%s", mess);
-                                        //change mess function
+                                        strcpy(G->UserArray[loginid]->User->Mess,mess);
                                         printf("mess changed successfully\n\n");
                                     } 
                                     if(!strcmp(change, "sport"))
@@ -334,7 +349,7 @@ int main(void)
                                         char sport[WORD_LEN];
                                         printf("Enter new sport : ");
                                         scanf("%s", sport);
-                                        //change mess function
+                                        strcpy(G->UserArray[loginid]->User->Sports,sport);
                                         printf("sport changed successfully\n\n");
                                     }        
                                     if(strcmp(change, "back"))
@@ -348,12 +363,12 @@ int main(void)
                             //display details
                             if(strcmp(next, "back"))
                             {
-                                printf("name : s\n");
-                                printf("year : s\n");
-                                printf("branch : s\n");
-                                printf("club : s\n");
-                                printf("mess : s\n");
-                                printf("sport : s\n");
+                                printf("name : %s\n",G->UserArray[loginid]->User->Name);
+                                printf("academic year : %d\n",G->UserArray[loginid]->User->Year);
+                                printf("branch : %s\n",G->UserArray[loginid]->User->Branch);
+                                printf("club : %s\n",G->UserArray[loginid]->User->Clubs);
+                                printf("mess : %s\n",G->UserArray[loginid]->User->Mess);
+                                printf("sport : %s\n",G->UserArray[loginid]->User->Sports);;
                                 printf("SUBMENU :   modify      back\n\n");
                                 printf("Type your command here : ");
                                 scanf("%s", next);
@@ -372,8 +387,8 @@ int main(void)
                         printf("We will miss you (>人<).\n\n");
 
                         printf("Press ENTER key to exit : ");
-                        getchar();
-                        getchar();
+                        // getchar();
+                        // getchar();
                         break;
                     }
                     printf("MENU    :   recommendations     friends      profile        unregister        logout\n\n");
@@ -390,6 +405,9 @@ int main(void)
         scanf("%s", input);
     }
     printf("\e[1;1H\e[2J");
+    
+    Delete_min_heap(&H); 
+    DeleteGraph(&G);
     
     return 0;
 }
