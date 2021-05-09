@@ -82,7 +82,7 @@ int BFS(Graph G, int start, recommondation Array[], int K)
     while (front != NULL)
     {
         u = pop();
-
+        assert(u->id < 1001);
         Table Neighbours = G->UserArray[u->id]->OutVertices;
 
         for (int i = 0; i < Neighbours->size; i++) //iterating to all buckets
@@ -93,6 +93,7 @@ int BFS(Graph G, int start, recommondation Array[], int K)
                 if (pColour[Pnode->Elem] == WHITE)
                 {
                     pColour[Pnode->Elem] = GRAY;
+                    //printf("%d ",Pnode->Elem);
                     recommondation P = malloc(sizeof(struct recommondation));
                     P->id = Pnode->Elem;
                     P->level = u->level + 1;
@@ -139,6 +140,7 @@ void Randomizeij(recommondation A[], int i, int j, int Ans[]) //int k is redunta
     {
         ranNum = (rand() % (j - i + 1)) + i;
 
+        //swap items at loctions loop and ranNUM
         recommondation temp = A[loop];
         A[loop] = A[ranNum];
         A[ranNum] = temp;
