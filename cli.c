@@ -14,7 +14,7 @@ int main(void)
     printf("\e[1;1H\e[2J");
     char input[WORD_LEN];
 
-    //start page 0
+    //welcome page
     printf("Welcome! Nice to see you on this beautiful day (◕‿◕✿).\n\n");
     printf("OPTIONS :   register        login       quit\n\n");
     printf("Type your command here : ");
@@ -39,9 +39,10 @@ int main(void)
             char mess[WORD_LEN];
             char sport[WORD_LEN];
 
-            printf("Caution!    :   Do not use space or enter button while entering parameters.\n\n");
+            printf("Caution!    :   Do not use space(except full name) or enter button while entering parameters\n\n");
             printf("Enter name : ");
-            scanf("%s", name);
+            fgets(name, WORD_LEN, stdin); //scans full name, remove if does not work, use scanf instead
+            //scanf("%s", name);
            
             getchar();
             printf("Enter year : ");
@@ -72,14 +73,11 @@ int main(void)
             printf("\n\n");
             //create account function
             printf("Congratulations, your account has been created successfully (~˘▾˘)~.\n\n");
-            //insertuser(graph, minheap, all info)
             InsertUser(G, H, name, branch, year, mess, club, sport);
 
             printf("\n\n");
 
-            //login directly and give all menu options
-            //recommend friends
-            //add friends or exit
+            //next availible options
 
             printf("OPTIONS :   login       quit\n\n");
             printf("Type your command here : ");
@@ -101,9 +99,14 @@ int main(void)
             while(loginid <= 0  && G->UserArray[loginid] == NULL)
             {
                     printf("Error : login ID does not exist.\n\n");
-                    printf("Enter login ID again : ");
+                    printf("Enter login ID again or press 0 to go back: ");
                     scanf("%d", &loginid);
+                    if(loginid == 0)
+                    {
+                        break;
+                    }
             }
+
             if(loginid > 0 && G->UserArray[loginid]) 
             {
                 //login function
@@ -177,7 +180,7 @@ int main(void)
 
                     if(!strcmp(enter, "friends"))
                     {
-                        PrintTable(G->UserArray[loginid]->OutVertices);//print friends list seg..
+                        PrintTable(G->UserArray[loginid]->OutVertices);//print friends list 
                         char next[WORD_LEN];
                         printf("SUBMENU :   unfriend        check-status        back\n\n");
                         printf("Type your command here : ");
@@ -214,11 +217,22 @@ int main(void)
                             }
                             if(!strcmp(next, "check-status"))
                             {
-                                int friend;
+                                int person;
                                 printf("Enter person id to check friendship status : ");
-                                scanf("%d", &friend);
+                                scanf("%d", &person);
+                                while(person <= 0 && G->UserArray[person] == NULL)
+                                {
+                                    printf("Error : person ID does not exist.\n\n");
+                                    printf("Enter person ID again or enter 0 to exit : ");
+                                    scanf("%d", &person);
+                                    if(person == 0)
+                                    {
+                                        printf("\n\n");
+                                        break;
+                                    }
+                                }
                                 //if(checkfriendship(G, loginid, friend)) //return 1 if friend else 0
-                                if(checkfriendship(G, loginid, friend))
+                                if(checkfriendship(G, loginid, person))
                                 {
                                     printf("Person is in your friends list (ᵔᴥᵔ).\n\n");
                                 }
@@ -263,7 +277,7 @@ int main(void)
                             if(!strcmp(next, "modify"))
                             {
                                 char change[WORD_LEN];
-                                printf("PARAMETERS :   name        year     branch       club       mess       sport       back\n\n");
+                                printf("PARAMETERS :   name        year     branch       club       mess       sport       back\n\n"); //profile details
                                 printf("type your command here : ");
                                 scanf("%s", change);
                                 while(strcmp(change, "back"))
@@ -368,6 +382,7 @@ int main(void)
                 }
             }
         }   
+        //back to home page
         printf("\e[1;1H\e[2J");
         printf("Welcome! Nice to see you on this beautiful day (◕‿◕✿).\n");
         printf("OPTIONS :   register        login       quit\n\n");
