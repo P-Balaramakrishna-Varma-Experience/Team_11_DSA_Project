@@ -162,6 +162,7 @@ int IsPresent(Table T, int a)
         { // return 1 if found
             return 1;
         }
+        P = P->Next;
     }
     // otherwise return 0
     return 0;

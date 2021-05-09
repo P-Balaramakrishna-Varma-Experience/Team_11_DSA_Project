@@ -7,21 +7,24 @@ int main()
     MinHeap H = Init_min_heap();
     AddNum(1, H);
 
+    for(int i = 0 ; i < 1000; i++)
     InsertUser(G, H, "Aman", "A", 12, "AM", "AC", "AS");
-    InsertUser(G, H, "Bman", "B", 2, "BM", "BC", "BS");
-    InsertUser(G, H, "Cman", "C", 1, "CM", "CC", "CS");
-    InsertUser(G, H, "Dman", "D", 22, "DM", "DC", "DS");
-    InsertUser(G, H, "Eman", "E", 10, "EM", "EC", "ES");
-    InsertUser(G, H, "Fman", "F", 2, "FM", "FC", "FS");
+    
 
-    AddEdge(1, 3, G);
-    AddEdge(2, 3, G);
-    AddEdge(2, 5, G);
-    AddEdge(3,2,G);
-
+    for(int i = 0 ; i < 1000;i++)
+    {
+        for(int j = 0 ; j < 200 ; j++)
+        {
+            int a = rand()%1000 + 1;
+            AddEdge(i+1,a,G);
+        }
+        //Print_Graph(G);
+          //  printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    }
     Print_Graph(G);
-    Friends_Recomandation_old_user(G,1,2);
-
+    printf("\n\n");
+    Friends_Recomandation_old_user(G,1,500);
+    printf("\n");
 
     //Print_Graph(G);
     DeleteGraph(&G);

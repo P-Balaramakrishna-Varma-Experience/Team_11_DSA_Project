@@ -15,6 +15,7 @@ Graph ResizeGraph(Graph G)
     int fact = 5; // currently fact is set to 5 i.e resizes to 5 times the current size
     int n = G->MAX_Size;
     G->UserArray = (PtrUserNode *)realloc(G->UserArray, fact * n * sizeof(PtrUserNode)); // reallocs the memory of array of G
+    assert(G->UserArray != NULL);
     G->MAX_Size = fact * n;                                                              // updates the size variable
     return G;
 }
