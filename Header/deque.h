@@ -1,5 +1,5 @@
 #ifndef __MY_DEQUE__
-#define __MY_DEQUE_
+#define __MY_DEQUE__
 
 #include "AllModule.h"
 typedef struct NodeDq *Deque;

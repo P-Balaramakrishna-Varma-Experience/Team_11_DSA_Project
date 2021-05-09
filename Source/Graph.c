@@ -46,7 +46,26 @@ void Print_Graph(Graph G)
         {
             PtrUserNode P = G->UserArray[i];
             printf("\nFriend List of %dth user\n", P->ID);
-            PrintTable(P->OutVertices);
+            // PrintTable(P->OutVertices);
+            Table T = P->OutVertices;
+            for (int i = 0; i < T->size; i++)
+            {
+                if (T->Bucket[i] == NULL)
+                {
+                    continue;
+                }
+                else
+                {
+                    NodePtr P = T->Bucket[i];
+                    // printf("%d: ", i);
+                    while (P != NULL)
+                    {
+                        printf("%d ", P->Elem);
+                        P = P->Next;
+                    }
+                    // printf("\n");
+                }
+            }
         }
     }
 }

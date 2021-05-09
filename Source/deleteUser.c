@@ -69,6 +69,9 @@ void deleteUser(Graph G, int user, MinHeap H)
         P->Isvalid = false;
 
         AddNum(user, H); // updates the heap of ids
+
+        free(P);
+        G->UserArray[user] = NULL;
     }
 }
 
