@@ -69,13 +69,18 @@ void toptenrecommendations(Graph info, int newuserID) // we will have t first di
 {
     int i;
     PtrUserNode newuser = info->UserArray[newuserID];
+    if(newuser == NULL)
+    {
+        printf("New Id does not exit\n");
+        return;
+    }
     struct parametercount* pcount = (struct parametercount*)malloc((info->MAX_Size)*sizeof(struct parametercount));
     for(i=0;i<(info->MAX_Size);i++)
-
     {
         pcount[i].PtrToDetails = NULL;
         pcount[i].commoncount = 0;
     }
+
     for (i = 0; i < (info->MAX_Size); i++)
     {
         if (info->UserArray[i] != NULL && info->UserArray[i] != newuser) // info->UserArray[i] != newuser is to ensure that the user doesnot check for common parameters with himself
@@ -131,7 +136,7 @@ void toptenrecommendations(Graph info, int newuserID) // we will have t first di
         {
             break;
         }
-        printf("%s\n", pcount[i].PtrToDetails->Name);
+        printf("%s %d\n", pcount[i].PtrToDetails->Name,pcount[i].PtrToDetails->ID);
     }
 
     free(pcount);
