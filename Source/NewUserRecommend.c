@@ -76,7 +76,7 @@ void toptenrecommendations(Graph info,int newuserID)// we will have t first disp
     int i;
     PtrUserNode newuser = info->UserArray[newuserID];
     struct parametercount* pcount = (struct parametercount*)malloc((info->MAX_Size)*sizeof(struct parametercount));
-    for(i=0;(info->MAX_Size);i++)
+    for(i=0;i<(info->MAX_Size);i++)
     {
         pcount[i].PtrToDetails = NULL;
         pcount[i].commoncount = 0;
@@ -122,18 +122,11 @@ void toptenrecommendations(Graph info,int newuserID)// we will have t first disp
 
     
 
-    
-    // // ////////////////////////////////////////////////////////////////////////////
-    // // // We can write code to display the top 10 (or less than 10) recommendations in random
-    // // // orderby using rand() for a group of UserID's with same number of common parameters
-    // // ////////////////////////////////////////////////////////////////////////////
-
     if(pcount[(info->MAX_Size)-1].PtrToDetails == NULL)
     {
         printf("You are the only user in the System");
         return;
     }
-
 
     printf("The Reommendations are :\n");
 
@@ -145,4 +138,6 @@ void toptenrecommendations(Graph info,int newuserID)// we will have t first disp
         }
         printf("%s\n",pcount[i].PtrToDetails->Name);
     }
+
+    free(pcount);
 }
