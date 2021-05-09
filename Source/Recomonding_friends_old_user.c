@@ -1,4 +1,4 @@
-#include "../Header/AllModule.h" 
+#include "../Header/AllModule.h"
 
 #define WHITE 0
 //not visited not in que
@@ -26,20 +26,25 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
     }
 
     recommondation *A = malloc(sizeof(recommondation) * K);
+    if (A == NULL)
+    {
+        printf("Out of memory\n");
+        exit(0);
+    }
 
     // Storing the nodes in preference of distance.
-
     int No_of_friends = BFS(G, Start, A, K);
 
     int *AnsArray = malloc(sizeof(int) * No_of_friends);
+    if (AnsArray == NULL)
+    {
+        printf("Out of memory\n");
+        exit(0);
+    }
     Randomize(A, No_of_friends, AnsArray);
-
-    DeleteRecommondationArray(A, K);
-
     PrintAnsArray(AnsArray, No_of_friends);
-
+    DeleteRecommondationArray(A, K);
     free(AnsArray);
-    return;
 }
 
 int BFS(Graph G, int start, recommondation *Array, int K)
@@ -50,18 +55,19 @@ int BFS(Graph G, int start, recommondation *Array, int K)
     assert(pColour != NULL);
 
     // Initialize all nodes to white/not visited
-    for (int i = 0; i <= G->MAX_Size; i++)
+    for (int i = 0; i < G->MAX_Size; i++)
         pColour[i] = WHITE;
 
     //starting the breath first search with the first node.
     pColour[start] = GRAY; // Gray nodes are added to the queue
-    front = rear = NULL;   ////  Q = makeQUE();
+
+    front = rear = NULL;
 
     recommondation Start = malloc(sizeof(struct recommondation));
     Start->id = start;
     Start->level = 0;
     inject(Start); //pushing into que
-
+    
     //Progressing the BFS
     recommondation u;
     int Last_index = -1; // index of last element strored in Array (size K)
@@ -72,15 +78,15 @@ int BFS(Graph G, int start, recommondation *Array, int K)
 
         Table Neighbours = G->UserArray[u->id]->OutVertices;
 
-        for (int i = 0; i < Neighbours->NumElems; i++) //iterating to all buckets
+        for (int i = 0; i < Neighbours->size; i++) //iterating to all buckets
         {
-            NodePtr Pnode = Neighbours->Bucket[i]->Next; // first value in bucket i;
+            NodePtr Pnode = Neighbours->Bucket[i]; // first value in bucket i;
             while (Pnode != NULL)
             {
                 if (pColour[Pnode->Elem] == WHITE)
                 {
                     pColour[Pnode->Elem] = GRAY;
-                    recommondation P = malloc(sizeof(recommondation));
+                    recommondation P = malloc(sizeof(struct recommondation));
                     P->id = Pnode->Elem;
                     P->level = u->level + 1;
                     inject(P); //push into a que
@@ -89,13 +95,12 @@ int BFS(Graph G, int start, recommondation *Array, int K)
                 Pnode = Pnode->Next;
             }
         }
-
         pColour[u->id] = BLACK;
 
         if (Last_index == K - 1) // the list is full.
             break;
 
-        if (Last_index != K - 1 && !checkfriendship(G, start, u->id) && u->id != start) // check friendship.
+        if (!checkfriendship(G,u->id,start) && u->id != start) // check friendship.
         {
             Last_index++;
             Array[Last_index] = u;
@@ -126,7 +131,7 @@ void Randomizeij(recommondation *A, int i, int j, int *Ans) //int k is reduntand
 
     for (int loop = i; loop <= j; loop++)
     {
-        ranNum = rand() % (j - i + 1) + i;
+        ranNum = (rand() % (j - i + 1)) + i;
 
         recommondation temp = A[loop];
         A[loop] = A[ranNum];
@@ -139,22 +144,25 @@ void Randomizeij(recommondation *A, int i, int j, int *Ans) //int k is reduntand
     }
 }
 
-void Randomize(recommondation *A, int K, int *Ans)
+void Randomize(recommondation *A, int length_of_recomArray, int *Ans)
 {
     int plevel = 2;
     int startlevel_index = 0;
 
-    for (int i = 0; i < K; i++)
+    for (int i = 0; i < length_of_recomArray; i++)
     {
         if (plevel == A[i]->level)
             continue;
         else
         {
             plevel = A[i]->level;
+            assert(startlevel_index <= i - 1);   //i-
             Randomizeij(A, startlevel_index, i - 1, Ans);
-            startlevel_index = i;
+            startlevel_index = i; //next time
         }
     }
+
+    Randomizeij(A,startlevel_index,length_of_recomArray-1,Ans);
 }
 
 void PrintAnsArray(int *A, int N)

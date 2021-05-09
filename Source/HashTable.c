@@ -80,6 +80,7 @@ void DeleteTable(Table T)
             free(P);
         }
     }
+    free(T->Bucket);
     free(T); // frees the table
     T = NULL;
 }
