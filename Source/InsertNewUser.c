@@ -9,10 +9,10 @@ PtrUserNode AcceptDetails(char name[], char branch[], int year, char mess[], cha
     Node->InVertices = InitTable(101);      // Making the InVertices and OutVertices point to a 
     Node->OutVertices = InitTable(101);     // empty hash table
 
-    if(Node->InVertices == NULL)
-    {
-        printf("aJdlkajdkljalkjd\n\n");
-    }
+    // if(Node->InVertices == NULL)
+    // {
+    //     printf("aJdlkajdkljalkjd\n\n");
+    // }
 
     struct details *temp = (struct details *)malloc(sizeof(struct details)); //dynamically allocating a struct details Ponter which wil be storing all the details of the User
     assert(temp != NULL);

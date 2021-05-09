@@ -73,9 +73,9 @@ int main(void)
             printf("\n\n");
             //create account function
             printf("Congratulations, your account has been created successfully (~˘▾˘)~.\n\n");
-            printf("everything is fine all good\n\n\n");
+            // printf("everything is fine all good\n\n\n");
             G = InsertUser(G, H, name, branch, year, mess, club, sport);
-            printf("everything is fine all good\n\n\n");
+            // printf("everything is fine all good\n\n\n");
             printf("\n\n");
 
             //next availible options
@@ -192,7 +192,7 @@ int main(void)
 
                     if(!strcmp(enter, "friends"))
                     {
-                        PrintTable(G->UserArray[loginid]->OutVertices);//print friends list 
+                        PrintFriends(G, loginid);//print friends list 
                         char next[WORD_LEN];
                         printf("SUBMENU :   unfriend        check-status        back\n\n");
                         printf("Type your command here : ");
@@ -246,7 +246,7 @@ int main(void)
                                 //if(checkfriendship(G, loginid, friend)) //return 1 if friend else 0
                                 if (person != 0)
                                 {
-                                    if (checkfriendship(G, loginid, person))
+                                    if (checkfriendship(G, person, loginid))
                                     {
                                         printf("Person is in your friends list (ᵔᴥᵔ).\n\n");
                                     }
@@ -387,8 +387,8 @@ int main(void)
                         printf("We will miss you (>人<).\n\n");
 
                         printf("Press ENTER key to exit : ");
-                        // getchar();
-                        // getchar();
+                        getchar();
+                        getchar();
                         break;
                     }
                     printf("MENU    :   recommendations     friends      profile        unregister        logout\n\n");

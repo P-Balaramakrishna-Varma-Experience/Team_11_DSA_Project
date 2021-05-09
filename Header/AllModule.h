@@ -29,6 +29,7 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K);
 void toptenrecommendations(Graph info, int newuserID);
 void RecommendFriends(Graph G, int user, int k);
 void DeleteUserNode(PtrUser *U);
+void PrintFriends(Graph G, int user);
 
 
 

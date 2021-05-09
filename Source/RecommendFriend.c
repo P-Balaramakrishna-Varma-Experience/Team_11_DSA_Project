@@ -15,7 +15,7 @@ void RecommendFriends(Graph G, int user, int k)
 {
     if (G->UserArray[user] != NULL)
     { // if user exists
-        if (G->UserArray[user]->OutVertices == NULL)
+        if (G->UserArray[user]->OutVertices->NumElems == 0)
         { // if user has no friends
             printf("You do not have enough friends to get %d recommendations\n", k);
             printf("So we have recommended friends to you based on your simillar interets\n");
@@ -23,7 +23,39 @@ void RecommendFriends(Graph G, int user, int k)
         }
         else
         { // if user has some friends
+            printf("else\n");
+            // assert(0);
             Friends_Recomandation_old_user(G, user, k);
+        }
+    }
+}
+
+void PrintFriends(Graph G, int user) {
+    Table T = G->UserArray[user]->OutVertices;
+    if(T != NULL) {
+        if(T->NumElems == 0) {
+            printf("Your friend list is empty\n");
+            return;
+        } else {
+            printf("Your friends are:\n");
+        }
+        for (int i = 0; i < T->size; i++)
+        {
+            if (T->Bucket[i] == NULL)
+            {
+                continue;
+            }
+            else
+            {
+                NodePtr P = T->Bucket[i];
+                // printf("%d: ", i);
+                while (P != NULL)
+                {
+                    printf("%s %d\n", G->UserArray[P->Elem]->User->Name, P->Elem);
+                    P = P->Next;
+                }
+                // printf("\n");
+            }
         }
     }
 }

@@ -179,13 +179,13 @@ void PrintTable(Table T)
         else
         {
             NodePtr P = T->Bucket[i];
-            printf("%d: ", i);
+            // printf("%d: ", i);
             while (P != NULL)
             {
                 printf("%d ", P->Elem);
                 P = P->Next;
             }
-            printf("\n");
+            // printf("\n");
         }
     }
 }
