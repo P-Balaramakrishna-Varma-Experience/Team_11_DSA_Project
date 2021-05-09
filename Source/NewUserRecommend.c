@@ -51,7 +51,7 @@ void CountSort(struct parametercount *Array, int Size_of_Array, int Range, int d
     //freeing memory
 }
 
-void RadixSort(struct parametercount *Array, int Size_of_Array)
+void RadixSort(struct parametercount *Array, int Size_of_Array) // function to sort the pcount array
 {
     int Range = 15; // Can be put as number of (parameters + 1)
     int *TempArray = malloc((Range) * sizeof(int));
@@ -59,26 +59,26 @@ void RadixSort(struct parametercount *Array, int Size_of_Array)
 
     for (int i = 1; i < 2; i++)
     {
-        CountSort(Array, Size_of_Array, Range, i, TempArray, sortedArray);
+        CountSort(Array, Size_of_Array, Range, i, TempArray, sortedArray);  // calling of count sort function to sort the pcount array
     }
-    free(TempArray);
-    free(sortedArray);
+    free(TempArray);    // freeing the memory occupied by TempArray
+    free(sortedArray);  // and sortedArray
 }
 
 void toptenrecommendations(Graph info, int newuserID) // we will have t first display the top 10 recommendations and then add the new user to the struct array of PTR to ID's
 {
     int i;
-    PtrUserNode newuser = info->UserArray[newuserID];
-    if(newuser == NULL)
+    PtrUserNode newuser = info->UserArray[newuserID];   // initializing newuser(a pointer) and equating it to the Pointer to User details of position newuserID
+    if(newuser == NULL)                                 // condition when the given ID doesn't point to a Non NULL pointer
     {
-        printf("New Id does not exit\n");
+        printf("New Id does not exit\n");               // print statement
         return;
     }
-    struct parametercount* pcount = (struct parametercount*)malloc((info->MAX_Size)*sizeof(struct parametercount));
+    struct parametercount* pcount = (struct parametercount*)malloc((info->MAX_Size)*sizeof(struct parametercount)); //dynamically allocating memory to pcount array equal to the size of struct parametercount*size of graph array 
     for(i=0;i<(info->MAX_Size);i++)
     {
-        pcount[i].PtrToDetails = NULL;
-        pcount[i].commoncount = 0;
+        pcount[i].PtrToDetails = NULL; // Loop to make all PtrToDetails to NULL and
+        pcount[i].commoncount = 0;     // commoncount to zero in the pcount array
     }
 
     for (i = 0; i < (info->MAX_Size); i++)
@@ -122,22 +122,22 @@ void toptenrecommendations(Graph info, int newuserID) // we will have t first di
 
     
 
-    if(pcount[(info->MAX_Size)-1].PtrToDetails == NULL)
-    {
+    if(pcount[(info->MAX_Size)-1].PtrToDetails == NULL)     // This condition is satisfied if the first user has registered 
+    {                                                       // and hence will not have any recommendations
         printf("You are the only user in the System");
         return;
     }
 
-    printf("The Reommendations are :\n");
+    printf("The Reommendations are :\n");                   // printf statement
 
-    for (i = ((info->MAX_Size) - 1); (i > (info->MAX_Size) - 11 && i >= 0); i--)
+    for (i = ((info->MAX_Size) - 1); (i > (info->MAX_Size) - 11 && i >= 0); i--)    // Loop to printf the top recommendations
     {
-        if (pcount[i].PtrToDetails == NULL)
-        {
-            break;
-        }
-        printf("%s %d\n", pcount[i].PtrToDetails->Name,pcount[i].PtrToDetails->ID);
+        if (pcount[i].PtrToDetails == NULL)         // This condition is fulfilled when while printing
+        {                                           // there are less than 10 users who are registered in the system
+            break;                                  // and hence will break from the loop when pointer to details becomes NULL
+        }                                          
+        printf("%s %d\n", pcount[i].PtrToDetails->Name,pcount[i].PtrToDetails->ID); // prints the Name of the user and respective ID of the Recommendations
     }
 
-    free(pcount);
+    free(pcount);                                   // frees the memory occupied by pcount array. 
 }

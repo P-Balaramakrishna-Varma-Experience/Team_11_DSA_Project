@@ -16,6 +16,6 @@
 
 int checkfriendship(Graph G, int a, int b)
 {
-    int status = IsPresent((G->UserArray[b])->OutVertices, a); // returns 1 if friend and
-    return status;                                                          // 0 if not a friend
+    int status = IsPresent((G->UserArray[b])->OutVertices, a);     // Calls the IsPresent function which checks if the ID of A is present in the OutVertices hashtable of B
+    return status;                                        // returns 1 if friend and 0 if not a friend
 }
