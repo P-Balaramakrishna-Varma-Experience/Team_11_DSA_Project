@@ -21,9 +21,9 @@ int main()
         //Print_Graph(G);
           //  printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
-    Print_Graph(G);
+    //Print_Graph(G);
     printf("\n\n");
-    Friends_Recomandation_old_user(G,1,100);
+    Friends_Recomandation_old_user(G,1,500);
     printf("\n");
 
     //Print_Graph(G);

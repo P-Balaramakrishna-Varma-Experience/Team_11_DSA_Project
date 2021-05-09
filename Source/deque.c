@@ -22,6 +22,8 @@ struct NodeDq *New() //to create a newnode
 {
     struct NodeDq *new;
     new = (struct NodeDq *)malloc(sizeof(struct NodeDq));
+    new->next = NULL;
+    new->prev = NULL;
     //assert(new != NULL);
     return new;
 }
