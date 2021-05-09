@@ -1,13 +1,12 @@
 #include "../Header/AllModule.h" 
 
 
-void display(Deque front) //to print the elements present in the deque
+void display(Deque fl) //to print the elements present in the deque
 {
-    Deque t = front;
+    Deque t = fl;
     if (t == NULL)
     {
         printf("The list is empty\n");
-        exit(0);
     }
     else
     {
@@ -22,7 +21,7 @@ void display(Deque front) //to print the elements present in the deque
 struct NodeDq *New() //to create a newnode
 {
     struct NodeDq *new;
-    new = (struct NodeDq *)malloc(sizeof(struct Node));
+    new = (struct NodeDq *)malloc(sizeof(struct NodeDq));
     //assert(new != NULL);
     return new;
 }

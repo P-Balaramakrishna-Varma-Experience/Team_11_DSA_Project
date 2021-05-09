@@ -7,6 +7,7 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
+#include <time.h>
 
 #include "recomendationB.h"
 #include "HashTable.h"
@@ -14,6 +15,7 @@
 #include "deque.h"
 #include "User.h"
 #include "Graph.h"
+
 
 
 #include "userfunc.h"
@@ -27,7 +29,6 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K);
 void toptenrecommendations(Graph info, int newuserID);
 void RecommendFriends(Graph G, int user, int k);
 void DeleteUserNode(PtrUser *U);
-
 
 
 

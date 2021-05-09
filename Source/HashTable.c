@@ -80,6 +80,7 @@ void DeleteTable(Table T)
             free(P);
         }
     }
+    free(T->Bucket);
     free(T); // frees the table
     T = NULL;
 }
@@ -161,6 +162,7 @@ int IsPresent(Table T, int a)
         { // return 1 if found
             return 1;
         }
+        P = P->Next;
     }
     // otherwise return 0
     return 0;
