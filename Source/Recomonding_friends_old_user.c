@@ -12,7 +12,7 @@ int BFS(Graph G, int start, recommondation Array[], int K);
 void Randomize(recommondation A[], int K, int Ans[]);
 void Randomizeij(recommondation A[], int i, int j, int Ans[]);
 void DeleteRecommondationArray(recommondation a[], int K);
-void PrintAnsArray(int Array[], int N);
+void PrintAnsArray(Graph G,int Array[], int N);
 
 void Friends_Recomandation_old_user(Graph G, int Start, int K)
 {
@@ -48,8 +48,8 @@ void Friends_Recomandation_old_user(Graph G, int Start, int K)
         AnsArray[i] = 0;
 
     Randomize(A, No_of_friends, AnsArray);
-    PrintAnsArray(AnsArray, No_of_friends);
-    DeleteRecommondationArray(A, K);
+    PrintAnsArray(G,AnsArray, No_of_friends);
+    DeleteRecommondationArray(A, No_of_friends);
     
     //free(AnsArray);
 }
@@ -173,10 +173,10 @@ void Randomize(recommondation A[], int length_of_recomArray, int Ans[])
     Randomizeij(A,startlevel_index,length_of_recomArray-1,Ans);
 }
 
-void PrintAnsArray(int A[], int N)
+void PrintAnsArray(Graph G,int A[], int N)
 {
     for (int i = 0; i < N; i++)
     {
-        printf("%d ", A[i]);
+        printf("%s %d  ", G->UserArray[A[i]]->User->Name,A[i]);
     }
 }

@@ -23,7 +23,7 @@ void RecommendFriends(Graph G, int user, int k)
         }
         else
         { // if user has some friends
-            printf("else\n");
+            //printf("else\n");
             // assert(0);
             Friends_Recomandation_old_user(G, user, k);
         }
