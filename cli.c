@@ -97,7 +97,7 @@ int main(void)
             int loginid;
             printf("Enter login ID : ");
             scanf("%d", &loginid);
-            printf("%d\n\n\n\n",loginid);
+            // printf("%d\n\n\n\n",loginid);
             while(loginid <= 0  || G->UserArray[loginid] == NULL)
             {
                     printf("Error : login ID does not exist.\n\n");
