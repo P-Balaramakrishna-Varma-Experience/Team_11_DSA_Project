@@ -3,14 +3,15 @@
 
 
 ## COMPILATION :-
-1. gcc -Wall  -o Project Source/*.c cli.c
-2. ./a.out
+1. gcc Project Source/*.c cli.c
+2. ./Project
 
 ## PRECAUTIONS :-
 1. Max word length that can be entered is 50 characters.
 2. User should not press enter or space in the beginning when inputing a string.
 3. The string is only considered till no space or enter is pressed, other characters after that are rejected.
-4. When the user quits, the program deletes all previously stored user database.
+4. The user must not enter a string when a number is asked for, or else the program might behave abruptly.
+5. When the user quits, the program deletes all previously stored user database.
 
 ## RUNNING :-
 1. The programs displays a welcome page first.
