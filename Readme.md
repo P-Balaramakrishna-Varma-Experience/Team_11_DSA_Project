@@ -118,7 +118,7 @@ https://github.com/P-Balaramakrishna-Varma/Team_11_DSA_Project.git
 2. User should press enter and exit back to home page.
 
 
-## Testing 
+## Testing :-
 
 1. For testing we have created a intial database(state of graph). 
 2. To get the data from test case run a.out and copy paste the file content of that test case into the terminal (do not redirect the input directly from the file).
