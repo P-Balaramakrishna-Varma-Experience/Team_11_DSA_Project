@@ -3,6 +3,11 @@
 
 void AddEdge(int A, int B, Graph G)
 {
+    if(A == B)
+    {
+        printf("You cannot befriend yourself\n");
+        return;
+    }
 
     int FOUND = IsPresent(G->UserArray[A]->OutVertices, B);
 

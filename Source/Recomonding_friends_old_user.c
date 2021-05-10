@@ -177,6 +177,7 @@ void PrintAnsArray(Graph G,int A[], int N)
 {
     for (int i = 0; i < N; i++)
     {
-        printf("%s %d  ", G->UserArray[A[i]]->User->Name,A[i]);
+        printf("%s %d\n", G->UserArray[A[i]]->User->Name,A[i]);
     }
+    printf("\n\n");
 }
