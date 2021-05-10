@@ -4,7 +4,7 @@ https://github.com/P-Balaramakrishna-Varma/Team_11_DSA_Project.git
 
 
 ## COMPILATION :-
-1. gcc Project Source/*.c cli.c
+1. gcc -o Project Source/*.c cli.c
 2. ./Project
 
 ## PRECAUTIONS :-
