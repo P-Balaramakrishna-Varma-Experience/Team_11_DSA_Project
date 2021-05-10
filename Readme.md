@@ -162,3 +162,12 @@ https://github.com/P-Balaramakrishna-Varma/Team_11_DSA_Project.git
 12. When a user logout, they can then either login with any diffrent or same id, or register a new user, or quit the program.
 13. All data is lost when we quit the program.
 14. Max word length that can be entered for a parameter is 50.
+
+
+
+
+## Testing 
+
+1. For testing we have created a intial database(state of graph). 
+2. To get the data from test case run a.out and copy paste the file content of that test case into the terminal (do not redirect the input directly from the file).
+3. Test any feature of your choice by following the instructions in **Running** section

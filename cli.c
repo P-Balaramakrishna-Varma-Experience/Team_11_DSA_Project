@@ -39,7 +39,7 @@ int main(void)
             char mess[WORD_LEN];
             char sport[WORD_LEN];
 
-            printf("Caution!    :   Do not use space(except full name) or enter button while entering parameters\n\n");
+            printf("Caution!    :   Do not use space or enter button while entering parameters\n\n");
             printf("Enter name : ");
             //fgets(name, WORD_LEN, stdin); //scans full name, remove if does not work, use scanf instead
             scanf("%s", name);
