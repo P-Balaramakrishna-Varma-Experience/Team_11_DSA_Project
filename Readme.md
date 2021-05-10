@@ -118,56 +118,10 @@ https://github.com/P-Balaramakrishna-Varma/Team_11_DSA_Project.git
 2. User should press enter and exit back to home page.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1.  User can either register, login or quit from program.
-2.  When user registers, he would be asked for his profile parameters.
-3.  When he completes the input, his account will be created and he will recieve a login id.
-4.  That login id will be used to login into the account.
-5.  When the user login, he will be given an menu to select from.
-6.  Menu options are recommendation list, friends-list, profile, unregister and logout.
-7.  In recommendations, the person will get at max 10 recommended people, with whom he can befriend with.
-8.  Then the person can select a person they want to befriend with, or go back to menu.
-9.  In friends, they can see his current friends list. The person will have an option to unfriend someone as well.
-10. In profile, they can see their enetered parameters, and will have an option to modify those.
-11. When a user unregisters, his account is permanently deleted.
-12. When a user logout, they can then either login with any diffrent or same id, or register a new user, or quit the program.
-13. All data is lost when we quit the program.
-14. Max word length that can be entered for a parameter is 50.
-
-
-
-
 ## Testing 
 
 1. For testing we have created a intial database(state of graph). 
 2. To get the data from test case run a.out and copy paste the file content of that test case into the terminal (do not redirect the input directly from the file).
 3. Test any feature of your choice by following the instructions in **Running** section
+=======
+
